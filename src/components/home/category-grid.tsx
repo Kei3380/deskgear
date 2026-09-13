@@ -38,7 +38,7 @@ export function CategoryGrid() {
           const Icon = CATEGORY_ICONS[category.slug] ?? Keyboard;
           return (
             <Link key={category.slug} href={`/search?category=${category.slug}`}>
-              <Card className="items-center gap-2 p-4 text-center transition-colors hover:bg-accent">
+              <Card className="items-center gap-2 p-4 text-center transition-all duration-200 hover:border-primary/60 hover:bg-accent hover:shadow-md">
                 <Icon className="size-6 text-primary" />
                 <span className="text-sm font-medium">{category.label}</span>
               </Card>
