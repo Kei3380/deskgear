@@ -1,0 +1,47 @@
+name: Auto Import Products via Gemini AI & Rakuten API
+
+on:
+  schedule:
+    # 毎日 午前9:00 (JST) / 0:00 (UTC) に自動起動
+    - cron: '0 0 * * *'
+  workflow_dispatch: # GitHubの管理画面から手動でボタンを押して即時起動可能
+
+jobs:
+  import-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 11.25.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Auto import new product
+        env:
+          RAKUTEN_APPLICATION_ID: ${{ secrets.RAKUTEN_APPLICATION_ID }}
+          RAKUTEN_ACCESS_KEY: ${{ secrets.RAKUTEN_ACCESS_KEY }}
+          RAKUTEN_AFFILIATE_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: pnpm import-product --keyword auto --limit 1
+
+      - name: Commit & Push changes if new files were created
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: auto-import new product via Gemini AI & Rakuten API [skip ci]'
+          file_pattern: 'content/products/*.md'

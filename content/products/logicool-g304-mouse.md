@@ -1,0 +1,35 @@
+---
+id: "GADGET-0050"
+status: "published"
+title: "Logicool G ゲーミングマウス G304（HEROセンサー / LIGHTSPEEDワイヤレス / 99g軽量）"
+manufacturer: "ロジクール"
+release_date: null
+category: "mouse"
+price: 5200
+rating: 4.49
+tags: ["LIGHTSPEED", "HEROセンサー", "軽量", "ゲーミング"]
+pros:
+  - "HEROセンサー搭載で高精度なトラッキング性能を発揮"
+  - "LIGHTSPEEDワイヤレス技術で有線並みの低遅延を実現"
+  - "約99gの軽量ボディで長時間のプレイでも疲れにくい"
+  - "国内正規品（2年間無償保証）で定番ゲーミングマウスとしての安心感が高い"
+cons:
+  - "上位モデルと比較するとボタンカスタマイズ性はシンプル"
+  - "手の大きさによってはグリップスタイルに好みが分かれる"
+affiliate_links:
+  amazon: ""
+  rakuten: "https://hb.afl.rakuten.co.jp/ichiba/57172727.76290337.57172728.1cdd5012/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Flogicool%2Fg304%2F&link_type=picttext&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJwaWN0dGV4dCIsInNpemUiOiIyNDB4MjQwIiwibmFtIjoxLCJuYW1wIjoicmlnaHQiLCJjb20iOjEsImNvbXAiOiJkb3duIiwicHJpY2UiOjEsImJvciI6MSwiY29sIjoxLCJiYnRuIjoxLCJwcm9kIjowLCJhbXAiOmZhbHNlfQ%3D%3D"
+image: "https://thumbnail.image.rakuten.co.jp/@0_mall/logicool/cabinet/prd/g_mice/g304/g304_01_r_1.jpg?_ex=240x240"
+---
+
+ロジクールのゲーミングマウス「G304」。独自のHEROセンサーを搭載しており、高精度なトラッキング性能によりFPSなど正確な操作が求められるゲームでも快適に扱える。LIGHTSPEEDワイヤレス技術により、ワイヤレスながら有線接続に匹敵する低遅延・高応答性を実現。約99gという軽量ボディで、長時間のプレイでも手首や腕への負担が少ない。国内正規品として2年間の無償保証が付帯し、定番ゲーミングマウスとして長年支持されているモデル。
+
+## こんな人におすすめ
+
+- 高精度なトラッキング性能を求めるFPS・ゲームプレイヤー
+- 軽量なワイヤレスゲーミングマウスを探している人
+- 定番・実績のあるモデルを選びたい人
+
+## 注意点
+
+上位モデルと比較すると、ボタンカスタマイズ性やデザインのバリエーションはシンプル。またグリップスタイルには個人差があるため、手の大きさに合わせて事前にサイズ感を確認しておくとよい。
