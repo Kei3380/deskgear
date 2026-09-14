@@ -422,13 +422,19 @@ async function main() {
       ? "/images/products/emeet-webcam.jpg"
       : "/images/products/lenovo-ideapad-slim.jpg";
 
+    const encodedKeyword = encodeURIComponent(keyword);
+    const searchTarget = `https://search.rakuten.co.jp/search/mall/${encodedKeyword}/`;
+    const fallbackAffiliateUrl = affiliateId
+      ? `https://hb.afl.rakuten.co.jp/ichiba/${affiliateId}/?pc=${encodeURIComponent(searchTarget)}`
+      : `https://search.rakuten.co.jp/search/mall/${encodedKeyword}/`;
+
     items = [
       {
         itemCode: `fallback-${Date.now()}`,
         itemName: keyword,
         itemPrice: 24800,
         reviewAverage: 4.5,
-        affiliateUrl: "https://hb.afl.rakuten.co.jp/",
+        affiliateUrl: fallbackAffiliateUrl,
         itemCaption: `${keyword} のおすすめ最新ガジェット製品。高パフォーマンスで作業効率を向上させます。`,
         shopName: "楽天公式ショップ",
         mediumImageUrls: [{ imageUrl: fallbackImg }],

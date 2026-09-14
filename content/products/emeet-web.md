@@ -17,7 +17,7 @@ cons:
   - "詳細な仕様は販売ページをご確認ください"
 affiliate_links:
   amazon: ""
-  rakuten: "https://hb.afl.rakuten.co.jp/"
+  rakuten: "https://hb.afl.rakuten.co.jp/ichiba/5780ac87.8c2d65ca.5780ac88.9dab56a8/?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2FeMeet%2520Web%25E3%2582%25AB%25E3%2583%25A1%25E3%2583%25A9%2F"
 image: "/images/products/emeet-webcam.jpg"
 ---
 
