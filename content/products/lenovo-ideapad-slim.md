@@ -18,7 +18,7 @@ cons:
 affiliate_links:
   amazon: ""
   rakuten: "https://hb.afl.rakuten.co.jp/"
-image: ""
+image: "/images/products/lenovo-ideapad-slim.jpg"
 ---
 
 Lenovo IdeaPad Slim ノートパソコンの製品概要。充実した基本機能を備え、日常の作業効率化やデスク環境のアップグレードに最適なアイテムです。

@@ -418,6 +418,10 @@ async function main() {
     console.warn(`⚠️ 楽天APIより取得一時失敗 (${errMessage})。`);
     console.log(`🤖 キーワード「${keyword}」に基づくAI商品情報自動生成モードで処理を継続します。\n`);
 
+    const fallbackImg = keyword.includes("カメラ") || keyword.includes("Web")
+      ? "/images/products/emeet-webcam.jpg"
+      : "/images/products/lenovo-ideapad-slim.jpg";
+
     items = [
       {
         itemCode: `fallback-${Date.now()}`,
@@ -427,6 +431,7 @@ async function main() {
         affiliateUrl: "https://hb.afl.rakuten.co.jp/",
         itemCaption: `${keyword} のおすすめ最新ガジェット製品。高パフォーマンスで作業効率を向上させます。`,
         shopName: "楽天公式ショップ",
+        mediumImageUrls: [{ imageUrl: fallbackImg }],
       },
     ];
   }
