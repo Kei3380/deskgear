@@ -113,10 +113,13 @@ async function fetchRakutenItems(
 
   const url = `https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260701?${queryParams.toString()}`;
 
+  const referer = process.env.RAKUTEN_API_REFERER || "http://localhost:3000/";
+  const origin = referer.replace(/\/$/, "");
+
   const response = await fetch(url, {
     headers: {
-      Origin: "https://example.com",
-      Referer: "https://example.com/",
+      Origin: origin,
+      Referer: referer,
     },
   });
 
@@ -253,9 +256,10 @@ async function generateArticleWithGemini(
 }`;
 
   const candidateModels = [
-    "gemini-3.6-flash",
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
     "gemini-flash-latest",
-    "gemini-2.5-pro",
   ];
 
   let lastError: Error | null = null;
@@ -285,8 +289,8 @@ async function generateArticleWithGemini(
         parsed.category = inputCategory !== "auto" ? inputCategory : "accessory";
       }
       return parsed;
-    } catch (err: any) {
-      lastError = err;
+    } catch (err: unknown) {
+      lastError = err instanceof Error ? err : new Error(String(err));
       console.warn(`モデル ${model} 呼び出し一時失敗、別モデルへ切り替えます...`);
     }
   }
