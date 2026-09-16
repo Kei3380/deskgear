@@ -1,5 +1,5 @@
 ---
-id: "GADGET-0084"
+id: "GADGET-0086"
 status: "published"
 title: "Lenovo IdeaPad Slim ノートパソコン"
 manufacturer: "Lenovo"
@@ -17,7 +17,7 @@ cons:
   - "詳細な仕様は販売ページをご確認ください"
 affiliate_links:
   amazon: ""
-  rakuten: "https://hb.afl.rakuten.co.jp/ichiba/5780ac87.8c2d65ca.5780ac88.9dab56a8/?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2FLenovo%2520IdeaPad%2520Slim%2F"
+  rakuten: "https://hb.afl.rakuten.co.jp/ichiba/5780ac87.8c2d65ca.5780ac88.9dab56a8/?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2FLenovo%2520IdeaPad%2520Slim%2520%25E3%2583%258E%25E3%2583%25BC%25E3%2583%2588%25E3%2583%2591%25E3%2582%25BD%25E3%2582%25B3%25E3%2583%25B3%2F"
 image: "/images/products/lenovo-ideapad-slim.jpg"
 ---
 
