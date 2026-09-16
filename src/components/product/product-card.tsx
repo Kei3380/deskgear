@@ -49,7 +49,7 @@ export function ProductCard({
             href={`/products/${product.slug}`}
             className="line-clamp-2 font-medium transition-colors hover:text-primary"
           >
-            {product.title}
+            {product.title.replace(/[（(][^）)]*[）)]/g, "").trim()}
           </Link>
           <span className="text-xs text-muted-foreground">
             {product.manufacturer}

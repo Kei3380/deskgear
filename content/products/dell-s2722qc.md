@@ -1,7 +1,7 @@
 ---
 id: "GADGET-0077"
 status: "published"
-title: "Dell S2722QC  保護 フィルム カバー シート ブルーライトカット 反射防止 "
+title: "Dell S2722QC 保護フィルム"
 manufacturer: "Dell"
 release_date: null
 category: "accessory"
@@ -21,7 +21,7 @@ affiliate_links:
 image: "https://thumbnail.image.rakuten.co.jp/@0_mall/casemania55/cabinet/item_thumb/blc7-moni/0000/k0001378199.jpg?_ex=128x128"
 ---
 
-Dell S2722QC  保護 フィルム カバー シート ブルーライトカット 反射防止 の製品概要。充実した基本機能を備え、日常の作業効率化やデスク環境のアップグレードに最適なアイテムです。
+Dell S2722QC 保護フィルム の製品概要。充実した基本機能を備え、日常の作業効率化やデスク環境のアップグレードに最適なアイテムです。
 
 ## こんな人におすすめ
 
