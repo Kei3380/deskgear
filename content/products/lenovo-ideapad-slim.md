@@ -1,5 +1,5 @@
 ---
-id: "GADGET-0086"
+id: "GADGET-0088"
 status: "published"
 title: "Lenovo IdeaPad Slim ノートパソコン"
 manufacturer: "Lenovo"
