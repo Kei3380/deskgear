@@ -21,9 +21,10 @@ const SET_ITEMS: {
   imageAlt: string;
 }[] = [
   {
-    slug: "budget-laptop-n95",
+    slug: "asus-vivobook-14-x1407ca",
     role: "ノートパソコン",
     roleEn: "Laptop",
+    note: "Webカメラ内蔵・顔認証対応でビデオ会議もすぐ使えます",
     imageSrc: "/images/beginner-set/laptop.jpg",
     imageAlt: "ノートパソコンのイメージ",
   },
