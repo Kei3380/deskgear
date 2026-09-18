@@ -6,7 +6,7 @@ manufacturer: "Dell"
 release_date: null
 category: "accessory"
 price: 7238
-rating: 5
+rating: 4.2
 tags: ["accessory","Dell","正規品"]
 pros:
   - "コストパフォーマンスに優れた設計"
