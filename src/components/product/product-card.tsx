@@ -23,7 +23,7 @@ export function ProductCard({
   return (
     <Card className="relative overflow-visible">
       {rank !== undefined && (
-        <Badge className="absolute -top-2 -left-2 h-7 w-7 justify-center rounded-full text-sm">
+        <Badge className="absolute -top-3 -left-3 h-7 w-7 justify-center rounded-full text-sm">
           {rank}
         </Badge>
       )}
@@ -59,14 +59,14 @@ export function ProductCard({
           <span className="flex items-center gap-1 text-muted-foreground">
             {product.rating !== null ? (
               <>
-                <Star className="size-4 fill-primary text-primary" />
+                <Star className="size-4 fill-rating text-rating" />
                 {product.rating.toFixed(1)}
               </>
             ) : (
               "評価未定"
             )}
           </span>
-          <span className="font-semibold">
+          <span className="text-lg font-bold">
             {priceFormatter.format(product.price)}
           </span>
         </div>

@@ -4,6 +4,7 @@ import { PackageOpen, ExternalLink } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site";
 import type { Product } from "@/types/product";
 
 const priceFormatter = new Intl.NumberFormat("ja-JP", {
@@ -55,7 +56,7 @@ function BeginnerSetJsonLd({ products }: { products: Product[] }) {
       "@type": "ListItem",
       position: index + 1,
       name: product.title,
-      url: `https://deskgear.vercel.app/products/${product.slug}`,
+      url: `${SITE_URL}/products/${product.slug}`,
     };
   }).filter(Boolean);
 
@@ -93,7 +94,7 @@ function SetItemCard({
       <Link
         href={`/products/${product.slug}`}
         className="group relative block overflow-hidden rounded-xl bg-muted"
-        style={{ aspectRatio: "1 / 1" }}
+        style={{ aspectRatio: "4 / 3" }}
         aria-label={`${meta.role}の詳細ページへ`}
       >
         <Image
@@ -123,7 +124,7 @@ function SetItemCard({
         {meta.note && (
           <p className="text-xs text-muted-foreground/80 italic">{meta.note}</p>
         )}
-        <p className="mt-1 text-base font-bold text-foreground">
+        <p className="mt-1 text-xl font-bold text-foreground">
           {priceFormatter.format(product.price)}
         </p>
       </div>
@@ -135,7 +136,7 @@ function SetItemCard({
             href={product.affiliateLinks.amazon}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className={cn(buttonVariants({ variant: "cta", size: "sm" }), "w-full")}
+            className={cn(buttonVariants({ variant: "cta", size: "sm" }), "h-auto w-full py-2.5")}
           >
             Amazonで見る
           </a>
@@ -145,7 +146,7 @@ function SetItemCard({
             href={product.affiliateLinks.rakuten}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className={cn(buttonVariants({ variant: "rakuten", size: "sm" }), "w-full")}
+            className={cn(buttonVariants({ variant: "rakuten", size: "sm" }), "h-auto w-full py-2.5")}
           >
             楽天で見る
           </a>
