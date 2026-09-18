@@ -6,7 +6,7 @@ manufacturer: "ASUS"
 release_date: null
 category: "laptop"
 price: 369800
-rating: 5.00
+rating: 4.4
 tags: ["RTX5060", "165Hz", "PC Game Pass", "顔認証"]
 pros:
   - "GeForce RTX 5060とAMD Ryzen 7 260で最新ゲームも高負荷な作業も快適"
