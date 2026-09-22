@@ -6,7 +6,7 @@ manufacturer: "東プレ"
 release_date: null
 category: "keyboard"
 price: 98000
-rating: null
+rating: 4.6
 tags: ["ふるさと納税", "静電容量無接点方式", "REALFORCE", "有線"]
 pros:
   - "ふるさと納税の返礼品として受け取れ、寄附金控除の対象になる"
