@@ -6,7 +6,7 @@ manufacturer: "Dynabook"
 release_date: null
 category: "laptop"
 price: 249700
-rating: null
+rating: 4.5
 tags: ["Core Ultra 7", "国内メーカー", "WUXGA", "大容量メモリ"]
 pros:
   - "Core Ultra 7 155H・メモリ32GBで複数アプリの同時利用や重い作業も快適"
