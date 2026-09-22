@@ -6,7 +6,7 @@ manufacturer: "ロジクール"
 release_date: null
 category: "mouse"
 price: 21100
-rating: 5.00
+rating: 4.5
 tags: ["LIGHTSPEED", "8000Hz", "60g軽量", "POWERPLAY対応"]
 pros:
   - "8000Hzポーリングレートで極めて滑らかで正確なトラッキングを実現"
