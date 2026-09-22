@@ -31,6 +31,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 関連ドキュメント
 - `requirements.md`: 要件定義書（プロジェクトの目的・機能要件・データモデル・技術スタック・SEO要件の正）
 - `feature-spec.md`: 実装ログ。作業単位ごとに実装内容・変更ファイル・動作確認結果を追記していく。新しい機能を実装したら、承認後にここへ追記すること。
+- `ui_spec.md`: UIデザイン仕様の記録（色・タイポグラフィ等のデザイントークン）と改修候補TODOリスト。本番サイトを解析して作成された参考資料であり、`requirements.md`/`feature-spec.md`とは別に随時更新される。
 
 ## Commands
 
