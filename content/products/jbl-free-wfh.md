@@ -5,7 +5,7 @@ title: "JBL Free WFH"
 manufacturer: "JBL"
 release_date: null
 category: "accessory"
-price: null
+price: 3980
 rating: 4.8
 tags: ["JBL", "ヘッドセット", "テレワーク", "ゲーム"]
 pros:
