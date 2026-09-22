@@ -52,13 +52,13 @@ pnpm lint     # ESLint実行
 - `getAllProducts()`: 全商品のFrontmatterのみ同期取得。**`status: "published"` 以外（`draft`/`archived`）は除外**され、一覧・ランキング・検索・`generateStaticParams` の対象に一切含まれない。
 - `getProductBySlug(slug)`: 個別商品の取得 + Markdown本文のHTML変換。`published` でない場合は `null` を返し、呼び出し側 `notFound()` で404にする。
 - `getRankedProducts(limit?)`: `rating` 降順ソート。
-- `filterAndSortProducts(products, filters)`: `ProductFilters`（`category`/`minPrice`/`maxPrice`/`minRating`/`sort`）による絞り込み・並び替えの純粋関数（検索結果ページで使用）。
+- `filterAndSortProducts(products, filters)`: `ProductFilters`（`category`/`manufacturer`/`sort`）による絞り込み・並び替えの純粋関数（検索結果ページで使用。価格帯・評価による絞り込みは未実装）。
 
 **カテゴリ**: 商品Markdownの `category` フィールド（slug文字列）に対する表示名・アイコンのマッピングは `src/lib/categories.ts` の `CATEGORIES` で一元管理する（商品側には表示名を持たせない）。
 
 **ルーティング**:
 - `/` — トップページ（カテゴリ一覧・ランキングベスト10・絞り込み検索パネル）
-- `/search?category=&min_price=&max_price=&min_rating=&sort=` — 検索結果ページ。不正な `sort` 値は `price_desc` にフォールバック。
+- `/search?category=&manufacturer=&sort=` — 検索結果ページ。不正な `sort` 値は `price_desc` にフォールバック。
 - `/products/[slug]` — 商品詳細ページ。`generateStaticParams()` で全published商品を事前生成し、完全SSGを維持。`generateMetadata()` で商品名ベースのSEOメタデータを動的生成。
 
 **SEO/AIO**: 商品詳細ページで `src/lib/json-ld.ts` の `buildProductJsonLd()` が Product スキーマ（`offers` + 編集部レビューの `review`）のJSON-LDを生成し、`<script type="application/ld+json">` で出力（`requirements.md` 6章）。絶対URL解決は `src/lib/site.ts` の `SITE_URL`（Vercel本番環境では `VERCEL_PROJECT_PRODUCTION_URL` を自動使用）。
@@ -68,7 +68,7 @@ pnpm lint     # ESLint実行
 - `src/components/product/product-card.tsx` — 商品カードの共通コンポーネント。トップページのランキングと検索結果グリッドの両方で使用（`rank` prop指定時のみランキングバッジ表示）。
 - `src/app/layout.tsx` — `SiteHeader` と共通コンテナ（`max-w-6xl`）をここで一元管理。各ページはコンテンツ本体のみを返す。
 
-**テーマ**: ライト/ダーク切り替えなしで常時ダークテーマ固定（`layout.tsx` の `<html>` に `dark` クラスを常時付与）。CTAカラー（`--cta`/`--rakuten` 系）は `globals.css` のCSS変数として定義（`requirements.md` 5章）。
+**テーマ**: ライト/ダーク切り替えなしで常時ライトテーマ固定（`layout.tsx` の `<html>` に `dark` クラスは付与しない）。CTAカラー（`--cta`/`--rakuten` 系）は `globals.css` のCSS変数として定義（`requirements.md` 5章）。
 
 ## Windows固有の注意
 

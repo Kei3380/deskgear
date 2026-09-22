@@ -14,50 +14,57 @@ CMSやDBは使用せず、完全なヘッドレス（Markdown管理）＋SSG（�
 
 ### フロントエンド画面
 1. **トップページ**
-   - 注目のカテゴリ一覧（キーボード、マウス、モニター等）
-   - 【未実装・要件のみ】ノートパソコンをまず提案し、用途・予算・スペックのニーズを段階的に絞り込んでいく、コンサルティング型の入口導線
-   - 総合おすすめランキングベスト10
-   - 高度な絞り込み検索パネル
-2. **検索結果ページ**
-   - 条件合致商品のリスト（またはグリッド）表示
-   - ソート機能（価格が安い順、評価が高い順、発売日が新しい順）
+   - 【実装済み】パソコン初心者向け「おすすめセット」導線（`BeginnerSet`コンポーネント）: ノートパソコン・マウス・モニター（任意）の3点を固定セットとして提示し、迷わず購入できる形でコンサルティング型入口を実現。段階的な絞り込み誘導（用途・予算等のヒアリング形式UI）までは未実装。
+   - 注目のカテゴリ一覧（デスクトップ・ノートPC・モニター・キーボード・マウス・ヘッドセット・Webカメラ・セキュリティ・PCアクセサリの9カテゴリ。`src/lib/categories.ts`で一元管理）
+   - 総合おすすめランキングベスト10（評価降順。評価未定商品は最下位扱い）
+   - 絞り込み検索パネル（カテゴリ・メーカーによる絞り込み。価格帯・評価による絞り込みは未実装）
+2. **検索結果ページ**（`/search?category=&manufacturer=&sort=`）
+   - 条件合致商品のグリッド表示
+   - ソート機能（価格が高い順［デフォルト／不正値時のフォールバック］、価格が安い順、評価が高い順、発売日が新しい順）
 3. **商品詳細（レビュー）ページ**
    - 商品のスペック表
    - メリット・デメリットの比較表
    - 高コンバージョンを狙った、視覚的に目立つアフィリエイトリンクボタン（Amazon / 楽天）
 
 ## 3. データモデル（Markdown Frontmatter）
-全商品は `/content/products/` 配下の `.md` （または `.mdx`）ファイルで管理する。
-将来的なAPIを利用した自動生成・在庫管理（GitHub Actions）を見据え、機械的に処理しやすい以下のメタデータを持たせる。
+全商品は `/content/products/` 配下の `.md` ファイルで管理する。
+GitHub Actionsによる自動生成（4章参照）を前提とし、機械的に処理しやすい以下のメタデータを持たせる。
 
-- `id`: 商品のユニークID（例: AmazonのASIN等。在庫チェックのキーとして使用） (String)
-- `status`: 公開ステータス（"published" | "draft" | "archived"） (String)
+- `id`: 商品のユニークID（`GADGET-0001`のような連番形式。自動生成スクリプトが既存ファイルの最大番号+1を採番） (String)
+- `status`: 公開ステータス（"published" | "draft" | "archived"）。`published`以外は一覧・ランキング・検索・`generateStaticParams`から除外 (String)
 - `title`: 商品名 (String)
 - `manufacturer`: メーカー名 (String)
 - `release_date`: 発売日 (Date: YYYY-MM形式。日付は表示しないため月までを保持。未定の場合は `null`)
-- `category`: カテゴリ (String)
+- `category`: カテゴリ (String。表示名は商品側に持たせず`src/lib/categories.ts`で一元管理)
 - `price`: 参考価格 (Number: ソート・絞り込み用)
-- `rating`: 総合評価 (Number: 0.0 ~ 5.0)
+- `rating`: 総合評価 (Number: 0.0 ~ 5.0。レビュー未実施等で評価未定の場合は `null`)
 - `tags`: 検索・絞り込み用の特徴タグ (Array of Strings)
 - `pros`: メリット (Array of Strings)
 - `cons`: デメリット (Array of Strings)
 - `affiliate_links`: アフィリエイトURLオブジェクト
   - `amazon`: (String)
   - `rakuten`: (String)
-- `image`: サムネイル画像パス (String)
+- `image`: 商品画像の絶対URL (String)。楽天市場商品検索APIが返す実商品画像URL（`thumbnail.image.rakuten.co.jp`ドメイン）を使用し、架空・プレースホルダー画像は使用しない方針。
 
 ## 4. 技術スタックとインフラ構成
-- **フロントエンド**: Next.js (App Router)
-- **スタイリング**: Tailwind CSS
-- **UIコンポーネント**: shadcn/ui
-- **Markdown処理**: remark / rehype または next-mdx-remote 等
-- **インフラ/ホスティング**: Vercel
-- **バージョン管理/将来の自動化基盤**: GitHub（将来的にGitHub ActionsでMarkdownファイルの自動生成・更新・削除を行う想定）
+- **フロントエンド**: Next.js 16 (App Router) + React 19 + TypeScript
+- **スタイリング**: Tailwind CSS v4
+- **UIコンポーネント**: shadcn/ui（`base-nova`スタイル、`@base-ui/react`ベース）
+- **Markdown処理**: `gray-matter`（Frontmatterパース）+ `remark`/`remark-html`（本文のHTML変換。商品詳細ページ生成時のみ実行）
+- **インフラ/ホスティング**: Vercel（GitHub連携によりmainブランチへのpushで自動ビルド・デプロイ、完全SSG）
+- **商品データの自動生成パイプライン**（実装済み・稼働中）:
+  - `.github/workflows/auto-import.yml` が毎日 9:00 JST（`cron: '0 0 * * *'`）に自動実行。GitHubの管理画面から`workflow_dispatch`による手動即時実行も可能。
+  - 楽天市場商品検索API（`openapi.rakuten.co.jp/ichibams`。`applicationId` + `accessKey`に加え、デベロッパーコンソールで登録したドメインと一致する`Origin`/`Referer`ヘッダーが必須）から商品データ（商品名・価格・実画像URL・アフィリエイトリンク等）を取得。
+  - Google Gemini API（`gemini-3.6-flash`等の現行モデル。取得失敗時は複数モデルへ自動フォールバック）でレビュー記事本文・pros/cons・タグ等のメタデータを自動生成。
+  - 実行スクリプト: `scripts/import-product.ts`（`pnpm import-product`）。楽天API取得失敗時や商品画像が取得できない場合は、架空データを生成せずスキップする方針（実在しない商品の捏造を防止）。
+  - 生成された`.md`ファイルは`content/products/`に自動コミット・プッシュされ、Vercelの自動デプロイにより本番反映される。
 
 ## 5. UI/UXとデザイン方針
-- **トーン＆マナー**: 「ダーク＆テック系（黒ベース）」。プログラマーやゲーマー向けガジェットが映える、クールで先進的なデザイン。
+- **トーン＆マナー**: ライトテーマ（明るい背景ベース）。当初は「ダーク＆テック系（黒ベース）」を想定していたが、現在はライトテーマのみに変更済み（ダーク/ライト切り替え機能はなし）。
 - **レスポンシブ**: モバイルファースト設計（スマホでの検索しやすさを最優先）。
-- **コンバージョン最適化**: アフィリエイトリンクのボタンは、ダークテーマの中でも最も視認性が高くクリックしたくなるアクセントカラー（例: Amazonのオレンジなど）を配置する。
+- **コンバージョン最適化**: アフィリエイトリンクのボタンは、ライトテーマの中でも最も視認性が高くクリックしたくなるアクセントカラー（Amazonオレンジ `--cta` / 楽天レッド `--rakuten`。`globals.css`でCSS変数として定義）を配置する。
 
 ## 6. SEO / AIO対策
-- 検索エンジンやAIクローラー（SGE, Perplexity等）向けに、各商品ページに JSON-LD（Product, Reviewスキーマ）を自動生成して出力する処理を実装すること。
+- 検索エンジンやAIクローラー（SGE, Perplexity等）向けに、各商品ページに JSON-LD（`Product`スキーマ + 編集部レビューの`Review`）を`src/lib/json-ld.ts`の`buildProductJsonLd()`で自動生成して出力（実装済み）。
+- トップページの「おすすめセット」セクションにも`ItemList`構造化データを出力（実装済み）。
+- 絶対URL解決は`src/lib/site.ts`の`SITE_URL`（Vercel本番環境では`VERCEL_PROJECT_PRODUCTION_URL`を自動使用）。
