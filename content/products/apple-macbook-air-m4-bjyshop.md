@@ -6,7 +6,7 @@ manufacturer: "Apple"
 release_date: "2025-03"
 category: "laptop"
 price: 169800
-rating: null
+rating: 4.4
 tags: ["Apple Silicon", "M4チップ", "Liquid Retina", "日本語キーボード"]
 pros:
   - "M4チップ10コアCPU・8コアGPUで日常作業からクリエイティブ用途まで高速に処理"
