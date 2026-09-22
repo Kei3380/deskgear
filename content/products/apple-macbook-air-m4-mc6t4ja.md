@@ -6,7 +6,7 @@ manufacturer: "Apple"
 release_date: null
 category: "laptop"
 price: 167979
-rating: null
+rating: 4.4
 tags: ["Apple Silicon", "M4チップ", "Liquid Retina", "新品未開封"]
 pros:
   - "M4チップ10コアで日常作業からクリエイティブ用途まで高速に処理"
