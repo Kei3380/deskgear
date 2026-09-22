@@ -19,7 +19,7 @@ cons:
 affiliate_links:
   amazon: ""
   rakuten: "https://a.r10.to/h5Gthl"
-image: "/images/products/logicool-g304-mouse.jpg"
+image: "https://thumbnail.image.rakuten.co.jp/@0_mall/logicool/cabinet/prd/g_mice/g304/g304_01_r_1.jpg?_ex=240x240"
 ---
 
 ロジクールのゲーミングマウス「G304」。独自のHEROセンサーを搭載しており、高精度なトラッキング性能によりFPSなど正確な操作が求められるゲームでも快適に扱える。LIGHTSPEEDワイヤレス技術により、ワイヤレスながら有線接続に匹敵する低遅延・高応答性を実現。約99gという軽量ボディで、長時間のプレイでも手首や腕への負担が少ない。国内正規品として2年間の無償保証が付帯し、定番ゲーミングマウスとして長年支持されているモデル。

@@ -256,9 +256,9 @@ async function generateArticleWithGemini(
 }`;
 
   const candidateModels = [
-    "gemini-2.5-flash",
-    "gemini-2.0-flash",
-    "gemini-1.5-flash",
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-flash-lite-latest",
     "gemini-flash-latest",
   ];
 
@@ -415,35 +415,23 @@ async function main() {
     }
   } catch (err: unknown) {
     const errMessage = err instanceof Error ? err.message : String(err);
-    console.warn(`⚠️ 楽天APIより取得一時失敗 (${errMessage})。`);
-    console.log(`🤖 キーワード「${keyword}」に基づくAI商品情報自動生成モードで処理を継続します。\n`);
-
-    const fallbackImg = keyword.includes("カメラ") || keyword.includes("Web")
-      ? "/images/products/emeet-webcam.jpg"
-      : "/images/products/lenovo-ideapad-slim.jpg";
-
-    const encodedKeyword = encodeURIComponent(keyword);
-    const searchTarget = `https://search.rakuten.co.jp/search/mall/${encodedKeyword}/`;
-    const fallbackAffiliateUrl = affiliateId
-      ? `https://hb.afl.rakuten.co.jp/ichiba/${affiliateId}/?pc=${encodeURIComponent(searchTarget)}`
-      : `https://search.rakuten.co.jp/search/mall/${encodedKeyword}/`;
-
-    items = [
-      {
-        itemCode: `fallback-${Date.now()}`,
-        itemName: keyword,
-        itemPrice: 24800,
-        reviewAverage: 4.5,
-        affiliateUrl: fallbackAffiliateUrl,
-        itemCaption: `${keyword} のおすすめ最新ガジェット製品。高パフォーマンスで作業効率を向上させます。`,
-        shopName: "楽天公式ショップ",
-        mediumImageUrls: [{ imageUrl: fallbackImg }],
-      },
-    ];
+    console.warn(`⚠️ 楽天APIより取得失敗 (${errMessage})。実在しない商品を捏造しないため、今回は処理をスキップします。`);
+    return;
   }
 
+  // 実商品画像が取得できなかった商品は掲載しない（プレースホルダー画像を使わないため）
+  const itemsWithImage = items.filter(
+    (item) => item.mediumImageUrls?.[0]?.imageUrl || item.smallImageUrls?.[0]?.imageUrl
+  );
+  if (itemsWithImage.length < items.length) {
+    console.log(
+      `⚠️ ${items.length - itemsWithImage.length} 件は商品画像が取得できなかったため除外しました。`
+    );
+  }
+  items = itemsWithImage;
+
   if (items.length === 0) {
-    console.log("⚠️ 処理対象の商品データがありません。");
+    console.log("⚠️ 処理対象の商品データがありません（画像取得可能な商品が見つかりませんでした）。");
     return;
   }
 

@@ -20,7 +20,7 @@ cons:
 affiliate_links:
   amazon: ""
   rakuten: "https://hb.afl.rakuten.co.jp/ichiba/57261fc0.bbc2a6eb.57261fc1.17216fc0/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fanker%2Fa855%2F&link_type=hybrid_url"
-image: "/images/products/anker-powerline-iii-flow-usbc.jpg"
+image: "https://thumbnail.image.rakuten.co.jp/@0_mall/anker/cabinet/listing/product/a855/a855_lp1.jpg?_ex=240x240"
 ---
 
 AnkerのUSB-Cケーブル「PowerLine III Flow」。外装に柔らかなシリコン素材を採用しており、従来のナイロン素材ケーブルよりも絡まりにくく、カバンやポケットに入れたままでも取り出しやすい。約25,000回の折り曲げテストをクリアした高耐久設計で、コネクタ付け根部分も強化されており長期使用に対応。USB Power Delivery（PD）に対応しており、最大100Wの急速充電が可能なため、MacBook、iPad、iPhone 15/16、各種Androidスマートフォンへの高速充電に幅広く対応する。専用のシリコン製結束バンドが同梱されており、デスク周りの整理や持ち運び時のまとめ収納にも役立つ。
