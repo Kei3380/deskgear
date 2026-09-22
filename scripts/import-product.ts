@@ -415,8 +415,9 @@ async function main() {
     }
   } catch (err: unknown) {
     const errMessage = err instanceof Error ? err.message : String(err);
-    console.warn(`⚠️ 楽天APIより取得失敗 (${errMessage})。実在しない商品を捏造しないため、今回は処理をスキップします。`);
-    return;
+    console.error(`❌ 楽天APIより取得失敗 (${errMessage})。実在しない商品を捏造しないため、今回は商品を追加しません。`);
+    console.error("   GitHub Actionsの失敗通知でこの状態に気づけるよう、異常終了します。");
+    process.exit(1);
   }
 
   // 実商品画像が取得できなかった商品は掲載しない（プレースホルダー画像を使わないため）
@@ -431,8 +432,9 @@ async function main() {
   items = itemsWithImage;
 
   if (items.length === 0) {
-    console.log("⚠️ 処理対象の商品データがありません（画像取得可能な商品が見つかりませんでした）。");
-    return;
+    console.error("❌ 処理対象の商品データがありません（画像取得可能な商品が見つかりませんでした）。");
+    console.error("   GitHub Actionsの失敗通知でこの状態に気づけるよう、異常終了します。");
+    process.exit(1);
   }
 
   const outputDir = path.join(process.cwd(), "content", "products");
