@@ -69,7 +69,7 @@ pnpm lint     # ESLint実行
 - `src/components/common/` — ページ横断の表示部品。`SectionHeading`（見出し、h1/h2・アイコン任意）/ `Price` / `Rating`（★は `--rating` で全ページ統一）/ `Breadcrumb`。価格・評価・見出しは直書きせずこれらを使う。
 - `src/components/product/product-card.tsx` — 商品カードの共通コンポーネント。トップページのランキングと検索結果グリッドの両方で使用（`rank` prop指定時のみランキングバッジ表示。1〜3位は金・銀・銅）。
 - `src/components/product/` — 商品詳細用に `product-hero.tsx`（ファーストビュー）/ `sticky-cta-bar.tsx`（モバイル追従CTA。`article` 末尾の `position: sticky` でJS不要）/ `spec-table.tsx` / `pros-cons-table.tsx` / `affiliate-cta.tsx`。
-- `src/components/home/` — トップページ用。初心者セットは `beginner-set.tsx`（本体・JSON-LD・合計金額）/ `beginner-set-item-card.tsx` / `beginner-set-items.ts`（構成定義、`optional` で任意品を区別）に分割。
+- `src/components/home/` — トップページ用。初心者セットは `beginner-set.tsx`（本体・JSON-LD・合計金額）/ `beginner-set-item-card.tsx` / `beginner-set-items.ts`（構成定義、`optional` で任意品を区別）に分割。背景固定の窓は `backdrop-section.tsx`、背景の中身は `home-backdrops.tsx`（デスク写真 / ドット模様）。
 - `src/app/layout.tsx` — `SiteHeader` / `SiteFooter` と共通コンテナ（`max-w-6xl`）をここで一元管理。各ページはコンテンツ本体のみを返す。
 
 **ユーティリティ**:
@@ -80,11 +80,17 @@ pnpm lint     # ESLint実行
 **テーマ**: ライト/ダーク切り替えなしで常時ライトテーマ固定（`layout.tsx` の `<html>` に `dark` クラスは付与しない）。未使用の `.dark` トークンは削除済みだが、shadcn/ui部品が `dark:` を使うため `@custom-variant dark` の行は削除しないこと。CTAカラー（`--cta`/`--rakuten` 系）・`--rating`・`--success` は `globals.css` のCSS変数として定義（`requirements.md` 5章、トークン一覧は `ui_spec.md` 9章）。フォントは `layout.tsx` で `next/font/google` の Noto Sans JP を読み込み、`--font-noto-sans-jp` 経由で適用。
 
 **パララックス演出（トップページ）**: CSSスクロール駆動アニメーション（`animation-timeline`）で実装し、JSは使わない。定義は `globals.css` の `@supports (animation-timeline: scroll())` + `@media (prefers-reduced-motion: no-preference)` 内に集約（「自前の複雑なCSSは書かない」ルールの合意済み例外）。
-- クラス: `.parallax-scroll`（ページ先頭からのスクロール連動）/ `.parallax-view`（要素の画面通過に連動）/ `.reveal`（フェードアップ、`--reveal-stagger` で遅延）/ `.rank-shine`（ランキングバッジの光沢）。移動量はコンポーネント側で `[--parallax-from:..]` / `[--parallax-to:..]` を指定。
+- クラス: `.parallax-scroll`（ページ先頭からのスクロール連動）/ `.reveal`（フェードアップ、`--reveal-stagger` で遅延）/ `.rank-shine`（ランキングバッジの光沢）。移動量はコンポーネント側で `[--parallax-from:..]` / `[--parallax-to:..]` を指定。
 - 動かすのは `translate` / `opacity` のみ（CLS・LCPに影響させない）。LCP要素やファーストビューの要素を `opacity: 0` から始めないこと。
 - `view()` を使う要素の祖先に `overflow-hidden` があると、その要素がスクロールコンテナ扱いになり動かない。祖先は `overflow-clip` にするか、名前付きタイムライン（`view-timeline-name`）を祖先に宣言して参照する。
 - `translate` を使うhover演出（`hover:-translate-y-*`）と同じ要素に `.reveal` を付けると競合するため、ラッパー要素側に付ける。
 - 非対応ブラウザ（Firefox）と「視差効果を減らす」設定の環境では静止表示になる。開発PCが後者の設定だと動きが見えないため、確認時は DevTools > Rendering で `prefers-reduced-motion` を `no-preference` にエミュレートする。
+
+**背景固定（トップページ）**: `BackdropSection` で「背景は画面に固定、前面だけスクロール」の窓を作る。トップページは 背景①デスク写真（h1＋初心者セット）/ 背景②ドット模様（カテゴリ・検索・ランキング）の2区画。
+- 背景は `position: sticky` のレイヤーを負のマージンで前面と重ねる方式（JS不要、`prefers-reduced-motion`・Firefox でも同じ見た目）。`background-attachment: fixed` は iOS Safari で効かないため使わない。
+- 背景が固定される距離は「区画の高さ − `backdropHeight`」。背景を高くしすぎると固定がすぐ終わる（背景①は `65svh`）。
+- 全幅（`100vw`）にすると Windows のスクロールバー幅ぶん横スクロールが出るため、コンテナ幅の角丸の窓にしている。角丸の切り抜きは `overflow-clip`（`overflow-hidden` だと sticky が効かない）。
+- 背景の上に載せる見出し・カードは不透明の地色のパネルに入れる（`page.tsx` の `PANEL_CLASS`）。背景にぼかし（`filter`/`backdrop-filter`）は使わない（スクロール負荷）。
 
 ## Windows固有の注意
 

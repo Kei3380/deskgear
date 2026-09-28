@@ -636,3 +636,39 @@ pnpm add gray-matter remark remark-html
 - 楽天・Gemini API を呼ばないオフラインテストで、実データ73件に対し `pickNewItems()` を検証: 除外リスト一致・既存商品のリンク一致・短縮リンク商品の画像一致・同一実行内重複がすべてスキップされ、未登録商品のみ採用されること（limit=1 で1件、limit=5 で未登録2件）を確認
 - 既存商品の重複スキャンで SanDisk の重複を検出し、削除後に「重複なし」を確認
 - 未確認: GitHub Actions 上での実行（次回の定期実行 or 手動実行で、ログの「♻️ 登録済み・除外対象の…件をスキップしました」を確認すること）
+
+---
+
+## 21. トップページの背景固定デザイン
+
+### 概要
+ユーザーから「パララックスで背景を固定して、前面の商品画像などがスクロールするようなサイトデザインにしたい（トップページのみ）」という依頼を受けて実装した。事前に合意した方針は以下のとおり。
+- 構成: 案1「区画ごとに背景を切り替える」。背景①はデスク写真（h1＋初心者セット）、背景②はCSSのドット模様（カテゴリ・検索・ランキング）
+- 既存演出: B（初心者セット内のヒーロー画像）は削除し、A（h1背景のアイコン）は白系に変更
+- 写真: 既存の `public/images/beginner-set/hero.jpg`（1376×768）を使用
+
+### 追加した依存パッケージ
+なし。
+
+### 変更内容
+- 新規 `src/components/home/backdrop-section.tsx`（`BackdropSection`）
+  - 背景レイヤーを `position: sticky; top: 0`（高さ `backdropHeight`、既定 `100svh`）にし、前面を `-mt-(--backdrop-h)` で重ねる。区画の終端で背景も流れ去る
+  - 提案段階の `position: fixed` + `clip-path` から方式を変更。全幅にすると Windows でスクロールバー幅ぶん横スクロールが出るため、コンテナ幅の角丸の窓（`overflow-clip rounded-3xl`）とした
+- 新規 `src/components/home/home-backdrops.tsx`
+  - `DeskPhotoBackdrop`: `hero.jpg` を `object-cover object-[center_60%]`、暗幕グラデーション＋`bg-primary/15` の乗算。LCP画像のため `loading="eager"` + `fetchPriority="high"`
+  - `DotPatternBackdrop`: インディゴ→濃紺のグラデーション、放射グラデーションの光だまり、22px間隔のドット。画像なし。スクロール負荷を避けるため blur 系は不使用
+- `src/app/page.tsx`: h1＋初心者セットを背景①（`backdropHeight="65svh"`, 地色 `bg-slate-900`）、カテゴリ・検索・ランキングを背景②に配置。カテゴリとランキングは `PANEL_CLASS`（`bg-background` の角丸パネル）で包む
+- `src/components/home/home-intro.tsx`: 白文字＋テキストシャドウ、h1を `text-3xl sm:text-5xl` に拡大、写真が見えるよう `min-h-[45svh] sm:min-h-[55svh]` で下寄せ。浮遊アイコンを `text-white/15〜30` に変更
+- `src/components/home/beginner-set.tsx`: ヒーロー画像（演出B）を削除
+- `src/app/globals.css`: 未使用になった `.parallax-view` を削除
+
+### 動作確認
+- `pnpm lint` / `pnpm build`（80ページ）エラーなし
+- ヘッドレス Edge のスクリーンショットで表示を確認（デスクトップ1280px / モバイル492px。ヘッドレスは幅492px未満にできないため）: 写真の上に白文字h1、初心者セットのカードが写真にかかる。背景②の上に白系パネル。横はみ出しなし
+- 実ブラウザでスクロール位置ごとに実測:
+  - 背景①: スクロール 100〜700px の間は背景上端が 0 に固定、カードは 598→-2 と上昇。900px で -171（区画の終端で流れ去る）
+  - 背景②: 区画上端 0〜-1318px の間は背景上端が 0 に固定、-1548px で -230
+- 実装中の修正:
+  - 背景を1画面の高さにすると写真の左右が大きく切れ、机上の機材がカードに隠れて壁しか見えなかった → 写真をh1の背後（65svh）のみに置き、下は濃紺で埋めた
+  - 背景が高いと固定距離（区画の高さ − 背景の高さ）が約250pxしかなかった → 背景を65svhにして約700pxに延長
+- 未確認: 実機（iOS Safari 等）での見た目。ブラウザ拡張のスクリーンショットは描画停止でタイムアウトしたため、目視は上記のヘッドレス撮影のみ

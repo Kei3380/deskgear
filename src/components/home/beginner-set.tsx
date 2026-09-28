@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, PackageOpen } from "lucide-react";
 
@@ -104,29 +103,6 @@ export function BeginnerSet({ products }: { products: Product[] }) {
 
         {/* ボディ */}
         <div className="p-5 sm:p-6">
-          {/*
-            メインビジュアル（モバイルは高さを確保するため 16:9）。
-            パララックス: 画像を上下8%ずつ大きく配置し、スクロールに合わせてゆっくり下へ、文字は逆方向へ動かす。
-            overflow-hidden はスクロールコンテナ扱いになり view() が機能しないため overflow-clip を使う。
-          */}
-          <div className="relative mb-6 aspect-video overflow-clip rounded-xl sm:aspect-[16/7]">
-            <div className="parallax-view absolute inset-x-0 -inset-y-[8%] [--parallax-from:-32px] [--parallax-to:32px]">
-              <Image
-                src="/images/beginner-set/hero.jpg"
-                alt="ノートパソコン・マウス・モニターがデスクに並んだセットアップのイメージ"
-                fill
-                priority
-                sizes="(min-width: 1024px) 1100px, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 pt-10 pb-3 sm:px-6 sm:pb-5">
-              <p className="parallax-view font-heading text-base font-bold text-white [--parallax-from:10px] [--parallax-to:-10px] sm:text-xl">
-                この{entries.length}点で、今日から始められる
-              </p>
-            </div>
-          </div>
-
           {/* 商品カード 3列 */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-5">
             {entries.map(({ meta, product }) => (

@@ -128,13 +128,6 @@
       animation-range: 0 100vh;
     }
 
-    /* 要素自身が画面に入ってから出るまでの間に連動して移動（ページ途中の画像・文字用） */
-    .parallax-view {
-      animation: parallax-shift linear both;
-      animation-timeline: view();
-      animation-range: cover 0% cover 100%;
-    }
-
     /* 画面下から入ってくるときにフェードアップ。--reveal-stagger で完了タイミングをずらし順番に現れるように見せる */
     .reveal {
       animation: reveal-up ease-out both;
