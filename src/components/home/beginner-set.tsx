@@ -90,9 +90,10 @@ export function BeginnerSet({ products }: { products: Product[] }) {
             <div>
               <h2
                 id="beginner-set-heading"
-                className="font-heading text-xl font-bold text-white sm:text-2xl"
+                className="font-heading text-xl font-bold text-white [overflow-wrap:anywhere] [word-break:keep-all] sm:text-2xl"
               >
-                パソコン初心者おすすめセット
+                {/* 狭い画面で「セッ／ト」のように途中改行しないよう、語の切れ目でのみ改行する */}
+                パソコン初心者<wbr />おすすめセット
               </h2>
               <p className="mt-0.5 text-sm text-white/80">
                 とりあえずこれで始めよう — 必要なものを最安値水準でまとめました

@@ -680,4 +680,5 @@ pnpm add gray-matter remark remark-html
 - `src/components/home/ranking-list.tsx`: 見出しを `keep-all` にし「ベス／ト10」のような途中改行を防止。スマホでは「すべて見る」を見出しの下の行に配置
 - `src/components/common/section-heading.tsx`: アイコンに `shrink-0`（見出しが折り返すとアイコンが縮んでいた）
 - `src/components/layout/site-header.tsx`: 「セット」リンクに `whitespace-nowrap`（360px幅で「セ／ット」と折り返していた。全ページ共通のヘッダーだが表示のみの修正）
+- `src/components/home/beginner-set.tsx`: 見出し「パソコン初心者おすすめセット」を `keep-all` + `<wbr>` にし、360px幅での「セッ／ト」の途中改行を「パソコン初心者／おすすめセット」に（本番反映後の再確認で発見）
 - 確認: 同じ iframe 撮影で 390px / 360px ともカテゴリ名・ランキング見出し・ヘッダーが語の途中で折り返さないことを確認。なお iframe はスクロールバー（約15px）ぶん実機より狭い条件
