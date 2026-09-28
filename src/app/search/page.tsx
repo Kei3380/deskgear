@@ -24,15 +24,44 @@ function isSortOption(value: string | undefined): value is SortOption {
   return SORT_OPTIONS.includes(value as SortOption);
 }
 
-/**
- * 検索条件からページ見出し（h1）・<title> 用の文言を組み立てる。
- * 実在しないカテゴリslug・メーカー名はURLに直接書かれても文言に含めない。
- */
-function buildSearchTitle(categoryParam?: string, manufacturerParam?: string): string {
-  const categoryLabel = CATEGORIES.find((c) => c.slug === categoryParam)?.label;
-  const manufacturer =
-    manufacturerParam && getManufacturers().includes(manufacturerParam) ? manufacturerParam : undefined;
+type SearchConditions = {
+  category?: string;
+  categoryLabel?: string;
+  manufacturer?: string;
+  sort: SortOption;
+};
 
+/**
+ * URLクエリを検証済みの検索条件に変換する。URLを直接書き換えて実在しないカテゴリslug・メーカー名
+ * （またはそのカテゴリに存在しないメーカー）が渡された場合は「指定なし」として扱い、
+ * 絞り込み・検索パネル・条件チップ・title の表示を一致させる（Selectが空欄になるのを防ぐ）。
+ */
+function resolveSearchConditions(
+  searchParams: Record<string, string | string[] | undefined>
+): SearchConditions {
+  const categoryParam = firstParam(searchParams.category);
+  const manufacturerParam = firstParam(searchParams.manufacturer);
+  const sortParam = firstParam(searchParams.sort);
+
+  const category = CATEGORIES.find((c) => c.slug === categoryParam);
+  const availableManufacturers = category
+    ? getManufacturersByCategory()[category.slug] ?? []
+    : getManufacturers();
+  const manufacturer =
+    manufacturerParam && availableManufacturers.includes(manufacturerParam)
+      ? manufacturerParam
+      : undefined;
+
+  return {
+    category: category?.slug,
+    categoryLabel: category?.label,
+    manufacturer,
+    sort: isSortOption(sortParam) ? sortParam : DEFAULT_SORT,
+  };
+}
+
+/** 検証済みの検索条件からページ見出し（h1）・<title> 用の文言を組み立てる */
+function buildSearchTitle({ categoryLabel, manufacturer }: SearchConditions): string {
   if (manufacturer && categoryLabel) return `${manufacturer}の${categoryLabel}一覧`;
   if (categoryLabel) return `${categoryLabel}の商品一覧`;
   if (manufacturer) return `${manufacturer}の商品一覧`;
@@ -40,11 +69,7 @@ function buildSearchTitle(categoryParam?: string, manufacturerParam?: string): s
 }
 
 export async function generateMetadata(props: PageProps<"/search">): Promise<Metadata> {
-  const searchParams = await props.searchParams;
-  const title = buildSearchTitle(
-    firstParam(searchParams.category),
-    firstParam(searchParams.manufacturer)
-  );
+  const title = buildSearchTitle(resolveSearchConditions(await props.searchParams));
 
   return {
     title: `${title} | DESKGEAR`,
@@ -53,12 +78,13 @@ export async function generateMetadata(props: PageProps<"/search">): Promise<Met
 }
 
 export default async function SearchPage(props: PageProps<"/search">) {
-  const searchParams = await props.searchParams;
-
-  const categoryParam = firstParam(searchParams.category);
-  const manufacturerParam = firstParam(searchParams.manufacturer);
-  const sortParam = firstParam(searchParams.sort);
-  const sort: SortOption = isSortOption(sortParam) ? sortParam : DEFAULT_SORT;
+  const conditions = resolveSearchConditions(await props.searchParams);
+  const {
+    category: categoryParam,
+    categoryLabel,
+    manufacturer: manufacturerParam,
+    sort,
+  } = conditions;
 
   const results = filterAndSortProducts(getAllProducts(), {
     category: categoryParam,
@@ -66,9 +92,7 @@ export default async function SearchPage(props: PageProps<"/search">) {
     sort,
   });
 
-  const categoryLabel = CATEGORIES.find((c) => c.slug === categoryParam)?.label;
-
-  const pageTitle = buildSearchTitle(categoryParam, manufacturerParam);
+  const pageTitle = buildSearchTitle(conditions);
 
   return (
     <>
