@@ -567,7 +567,7 @@ pnpm add gray-matter remark remark-html
 - 未確認: モバイル幅での表示（ブラウザウィンドウのリサイズが反映されなかったため。追従CTAバーは `md` 未満でのみ表示）
 
 ### 残課題（本作業のスコープ外）
-- `product-card.tsx` / `affiliate-cta.tsx` / `sticky-cta-bar.tsx` のアフィリエイトリンクに `rel="sponsored"` が未付与（`beginner-set-item-card.tsx` のみ付与済み）
+- ~~`product-card.tsx` / `affiliate-cta.tsx` / `sticky-cta-bar.tsx` のアフィリエイトリンクに `rel="sponsored"` が未付与~~ → 2026-09-28 対応済み（全アフィリエイトリンクを `rel="noopener noreferrer sponsored"` に統一）
 - 検索結果ページの `<title>` がサイト共通のまま（`generateMetadata` 未実装）
 - URLに存在しないメーカー名が指定された場合、メーカーSelectが空表示になる
 

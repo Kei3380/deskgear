@@ -9,7 +9,7 @@ export function AffiliateCta({ links }: { links: AffiliateLinks }) {
         <a
           href={links.amazon}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener noreferrer sponsored"
           className={cn(
             buttonVariants({ variant: "cta", size: "lg" }),
             "flex-1 text-base font-semibold"
@@ -22,7 +22,7 @@ export function AffiliateCta({ links }: { links: AffiliateLinks }) {
         <a
           href={links.rakuten}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener noreferrer sponsored"
           className={cn(
             buttonVariants({ variant: "rakuten", size: "lg" }),
             "flex-1 text-base font-semibold"

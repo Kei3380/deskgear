@@ -20,7 +20,7 @@ export function StickyCtaBar({ product }: { product: Product }) {
             <a
               href={amazon}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer sponsored"
               className={cn(buttonVariants({ variant: "cta" }), "h-10 flex-1 font-semibold")}
             >
               Amazon
@@ -30,7 +30,7 @@ export function StickyCtaBar({ product }: { product: Product }) {
             <a
               href={rakuten}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer sponsored"
               className={cn(buttonVariants({ variant: "rakuten" }), "h-10 flex-1 font-semibold")}
             >
               楽天で見る

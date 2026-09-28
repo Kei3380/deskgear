@@ -87,7 +87,7 @@ export function ProductCard({
               <a
                 href={product.affiliateLinks.amazon}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer sponsored"
                 className={cn(buttonVariants({ variant: "cta", size: "sm" }), "h-9 flex-1")}
               >
                 Amazonで見る
@@ -97,7 +97,7 @@ export function ProductCard({
               <a
                 href={product.affiliateLinks.rakuten}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer sponsored"
                 className={cn(buttonVariants({ variant: "rakuten", size: "sm" }), "h-9 flex-1")}
               >
                 楽天で見る
