@@ -59,7 +59,7 @@ pnpm lint     # ESLint実行
 
 **ルーティング**:
 - `/` — トップページ（h1リード・初心者おすすめセット・カテゴリ一覧・絞り込み検索パネル・ランキングベスト10）
-- `/search?category=&manufacturer=&sort=` — 検索結果ページ。不正な `sort` 値は `price_desc`（`src/lib/sort-options.ts` の `DEFAULT_SORT`）にフォールバック。`SearchPanel` には検索条件ベースの `key` を付与し、URL変更時に選択状態を初期化する。クエリは `resolveSearchConditions()` で検証し、実在しないカテゴリ・メーカー（そのカテゴリにないメーカーを含む）は「指定なし」として扱う。`generateMetadata()` と h1 は `buildSearchTitle()` で共通の文言（例「ロジクールのマウス一覧」）を生成する。
+- `/search?category=&manufacturer=&sort=` — 検索結果ページ。不正な `sort` 値は `price_desc`（`src/lib/sort-options.ts` の `DEFAULT_SORT`）にフォールバック。`SearchPanel` には検索条件ベースの `key` を付与し、URL変更時に選択状態を初期化する。クエリは `resolveSearchConditions()` で検証し、実在しないカテゴリ・メーカー（そのカテゴリにないメーカーを含む）は「指定なし」として扱う。`generateMetadata()` と h1 は `buildSearchTitle()` で共通の文言（例「ロジクールのマウス一覧」）を生成する。canonical は `buildCanonicalPath()` で `sort` を除いた検証済み条件のみに正規化する（`sitemap.ts` のURL形式と揃えること）。
 - `/products/[slug]` — 商品詳細ページ。`generateStaticParams()` で全published商品を事前生成し、完全SSGを維持。`generateMetadata()` で商品名ベースのSEOメタデータを動的生成。
 
 **SEO/AIO**: 商品詳細ページで `src/lib/json-ld.ts` の `buildProductJsonLd()` が Product スキーマ（`offers` + 編集部レビューの `review`）のJSON-LDを生成し、`<script type="application/ld+json">` で出力（`requirements.md` 6章）。絶対URL解決は `src/lib/site.ts` の `SITE_URL`（Vercel本番環境では `VERCEL_PROJECT_PRODUCTION_URL` を自動使用）。

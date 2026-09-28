@@ -570,6 +570,7 @@ pnpm add gray-matter remark remark-html
 - ~~`product-card.tsx` / `affiliate-cta.tsx` / `sticky-cta-bar.tsx` のアフィリエイトリンクに `rel="sponsored"` が未付与~~ → 2026-09-28 対応済み（全アフィリエイトリンクを `rel="noopener noreferrer sponsored"` に統一）
 - ~~検索結果ページの `<title>` がサイト共通のまま~~ → 2026-09-28 対応済み（`search/page.tsx` に `generateMetadata()` を追加。`buildSearchTitle()` で h1 と共通の文言を生成し、例「ロジクールのマウス一覧 | DESKGEAR」。実在しないカテゴリ・メーカーは文言に含めない）
 - ~~URLに存在しないメーカー名が指定された場合、メーカーSelectが空表示になる~~ → 2026-09-28 対応済み（`search/page.tsx` の `resolveSearchConditions()` で、実在しないカテゴリ・実在しない/そのカテゴリにないメーカーを「指定なし」に正規化。絞り込み・検索パネル・条件チップ・title を一致させる）
+- 追加対応（2026-09-28）: 検索結果ページに canonical を追加（`buildCanonicalPath()`）。並び順（`sort`）と無効な条件を除き、検証済みのカテゴリ・メーカーのみ `category` → `manufacturer` の順で正規化（例 `?sort=price_asc&manufacturer=ロジクール&category=mouse` → `/search?category=mouse&manufacturer=ロジクール`）。`sitemap.ts` の `/search` / `/search?category=xxx` と同形式
 
 ---
 

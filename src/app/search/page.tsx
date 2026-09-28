@@ -68,11 +68,26 @@ function buildSearchTitle({ categoryLabel, manufacturer }: SearchConditions): st
   return "商品検索";
 }
 
+/**
+ * canonical URL。並び順（sort）は同じ商品集合の並べ替えにすぎないため含めず、
+ * 検証済みのカテゴリ・メーカーのみで正規化する（無効な値・パラメータ順の揺れも吸収）。
+ */
+function buildCanonicalPath({ category, manufacturer }: SearchConditions): string {
+  const params = new URLSearchParams();
+  if (category) params.set("category", category);
+  if (manufacturer) params.set("manufacturer", manufacturer);
+  const query = params.toString();
+  return query ? `/search?${query}` : "/search";
+}
+
 export async function generateMetadata(props: PageProps<"/search">): Promise<Metadata> {
-  const title = buildSearchTitle(resolveSearchConditions(await props.searchParams));
+  const conditions = resolveSearchConditions(await props.searchParams);
+  const title = buildSearchTitle(conditions);
 
   return {
     title: `${title} | DESKGEAR`,
+    // 相対パスは layout.tsx の metadataBase（SITE_URL）で絶対URLに解決される
+    alternates: { canonical: buildCanonicalPath(conditions) },
     description: `${title === "商品検索" ? "デスク周辺機器" : title.replace(/一覧$/, "")}を価格・評価・発売日で比較。編集部レビュー付きで、自分に合う1台がすぐ見つかります。`,
   };
 }
