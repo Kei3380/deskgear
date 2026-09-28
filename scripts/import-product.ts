@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 
+import { loadRegisteredKeys, pickNewItems } from "./product-dedupe";
+
 /**
  * .env.local または .env ファイルから環境変数を読み込む簡易パーサー
  */
@@ -79,6 +81,7 @@ const AUTO_KEYWORDS = [
 type RakutenItem = {
   itemCode: string;
   itemName: string;
+  itemUrl?: string;
   itemPrice: number;
   reviewAverage: number;
   mediumImageUrls?: { imageUrl: string }[];
@@ -104,7 +107,7 @@ async function fetchRakutenItems(
     hits: String(limit),
     sort: "-reviewCount",
     elements:
-      "itemCode,itemName,itemPrice,reviewAverage,mediumImageUrls,smallImageUrls,affiliateUrl,itemCaption,shopName",
+      "itemCode,itemName,itemUrl,itemPrice,reviewAverage,mediumImageUrls,smallImageUrls,affiliateUrl,itemCaption,shopName",
   });
 
   if (affiliateId) {
@@ -407,7 +410,9 @@ async function main() {
   console.log(`🔍 検索キーワード: "${keyword}" (カテゴリ指定: ${category}, 件数: ${limit})`);
   let items: RakutenItem[] = [];
   try {
-    items = await fetchRakutenItems(keyword, appId, accessKey, affiliateId, limit);
+    // 登録済み商品をスキップしても limit 件を確保できるよう、多めに候補を取得する（楽天APIの上限は30件）
+    const candidateCount = Math.min(30, Math.max(limit * 10, 10));
+    items = await fetchRakutenItems(keyword, appId, accessKey, affiliateId, candidateCount);
     if (items.length > 0) {
       console.log(`📦 楽天APIより ${items.length} 件の商品を取得しました。\n`);
     } else {
@@ -431,13 +436,21 @@ async function main() {
   }
   items = itemsWithImage;
 
+  // 重複防止: 登録済み（全ステータス）・除外リスト（scripts/import-exclude.json）の商品をスキップ
+  const outputDir = path.join(process.cwd(), "content", "products");
+  const { picked, skipped } = pickNewItems(items, loadRegisteredKeys(outputDir), limit);
+  if (skipped.length > 0) {
+    console.log(`♻️ 登録済み・除外対象の ${skipped.length} 件をスキップしました:`);
+    for (const item of skipped) console.log(`   - ${item.itemName.slice(0, 50)}`);
+  }
+  items = picked;
+
   if (items.length === 0) {
-    console.error("❌ 処理対象の商品データがありません（画像取得可能な商品が見つかりませんでした）。");
+    console.error("❌ 処理対象の商品データがありません（画像付きの未登録商品が見つかりませんでした）。");
     console.error("   GitHub Actionsの失敗通知でこの状態に気づけるよう、異常終了します。");
     process.exit(1);
   }
 
-  const outputDir = path.join(process.cwd(), "content", "products");
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }

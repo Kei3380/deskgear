@@ -607,3 +607,31 @@ pnpm add gray-matter remark remark-html
   - D: カードのフェードアップを確認（例: 0.55 / 0.47 / 0.41）
 - 未確認: D のバッジ光沢の見た目（ブラウザタブが非表示状態で描画が止まり、スクリーンショットもタイムアウトしたため）。実機では DevTools > Rendering で `prefers-reduced-motion` を `no-preference` にして目視確認すること
 - 注意: OSの「アニメーション効果」がオフの端末では、設計どおり演出はすべて止まる
+
+---
+
+## 20. 商品自動追加の重複防止
+
+### 概要
+自動取り込み（GitHub Actions → `scripts/import-product.ts`）で同一商品が別ファイルとして重複登録されていた（REALFORCE GX1 が2件、SanDisk Extreme ポータブルSSD 1TB が2件）。原因は「キーワード検索 → レビュー件数順の1位を1件だけ取り込む」仕様で、同じキーワードが選ばれるたびに同じ商品を取り込んでいたこと、および登録済みチェックが存在しなかったこと。ファイル名（slug）は Gemini が毎回生成するため、ファイル名の衝突では検出できない。
+
+### 追加した依存パッケージ
+なし（既存の `gray-matter` を使用）。
+
+### 変更内容
+- 新規 `scripts/product-dedupe.ts`
+  - 照合キー: 楽天商品ページ `item.rakuten.co.jp/{ショップ}/{商品ID}/` の「ショップ/商品ID」（アフィリエイトURL `hb.afl.rakuten.co.jp` の `pc` パラメータからも復元）と、画像URLのパス（`?_ex=` を除く。短縮リンク `a.r10.to` の商品用）
+  - `loadRegisteredKeys()`: `content/products/*.md`（published/draft/archived すべて）と除外リストからキー集合を作る。除外リストが壊れている場合は例外で異常終了
+  - `pickNewItems()`: 登録済みでない商品を先頭から最大 `limit` 件選ぶ。選んだ商品のキーも追加し同一実行内の重複も防ぐ
+- 新規 `scripts/import-exclude.json`: 削除済みで再取り込みさせない商品の除外リスト（`key` と `note`）。REALFORCE GX1（`item:realforce/x1u`）を登録
+- `scripts/import-product.ts`
+  - 楽天APIの取得件数を `limit` 件から `min(30, max(limit×10, 10))` 件に増やし、画像なし除外 → 重複除外の後に `limit` 件を採用
+  - 取得項目に `itemUrl` を追加。スキップした商品名をログ出力。未登録商品が0件の場合は従来どおり exit 1（Actions の失敗通知）
+- `content/products/`: 重複していた `realforce-gx1-gaming-keyboard.md` / `realforce-gx1.md`（2件とも）と `sandisk-extreme-portable-ssd-1tb-e61.md` を削除（SanDisk は `sandisk-extreme-portable-ssd-1tb.md` を残したため除外リストへの追加は不要）
+- `CLAUDE.md`: 除外リストの運用ルールを追記
+
+### 動作確認
+- `tsc --noEmit` / `pnpm lint` / `pnpm build`（80ページ）エラーなし
+- 楽天・Gemini API を呼ばないオフラインテストで、実データ73件に対し `pickNewItems()` を検証: 除外リスト一致・既存商品のリンク一致・短縮リンク商品の画像一致・同一実行内重複がすべてスキップされ、未登録商品のみ採用されること（limit=1 で1件、limit=5 で未登録2件）を確認
+- 既存商品の重複スキャンで SanDisk の重複を検出し、削除後に「重複なし」を確認
+- 未確認: GitHub Actions 上での実行（次回の定期実行 or 手動実行で、ログの「♻️ 登録済み・除外対象の…件をスキップしました」を確認すること）

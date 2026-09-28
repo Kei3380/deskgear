@@ -93,3 +93,5 @@ Windowsはファイル名の大小文字を区別しないため、`create-next-
 ## Git運用の注意
 
 GitHub Actions が商品を自動追加し `main` に直接コミットする（`chore: auto-import new product ...`）。push 前に `git fetch` し、リモートが進んでいれば `git rebase origin/main` → `pnpm build` で確認してから push すること。
+
+**商品の削除**: 自動取り込みは `scripts/product-dedupe.ts` で登録済み商品（楽天の商品ページURL・画像URLで照合）をスキップするが、ファイルを削除した商品は照合できず再取り込みされうる。再取り込みさせたくない商品を削除する場合は `scripts/import-exclude.json` に `item:{ショップ}/{商品ID}` を追記するか、削除せず `status: "archived"` にすること（archived も照合対象）。
