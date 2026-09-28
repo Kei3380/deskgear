@@ -58,19 +58,38 @@ pnpm lint     # ESLint実行
 **カテゴリ**: 商品Markdownの `category` フィールド（slug文字列）に対する表示名・アイコンのマッピングは `src/lib/categories.ts` の `CATEGORIES` で一元管理する（商品側には表示名を持たせない）。
 
 **ルーティング**:
-- `/` — トップページ（カテゴリ一覧・ランキングベスト10・絞り込み検索パネル）
-- `/search?category=&manufacturer=&sort=` — 検索結果ページ。不正な `sort` 値は `price_desc` にフォールバック。
+- `/` — トップページ（h1リード・初心者おすすめセット・カテゴリ一覧・絞り込み検索パネル・ランキングベスト10）
+- `/search?category=&manufacturer=&sort=` — 検索結果ページ。不正な `sort` 値は `price_desc`（`src/lib/sort-options.ts` の `DEFAULT_SORT`）にフォールバック。`SearchPanel` には検索条件ベースの `key` を付与し、URL変更時に選択状態を初期化する。
 - `/products/[slug]` — 商品詳細ページ。`generateStaticParams()` で全published商品を事前生成し、完全SSGを維持。`generateMetadata()` で商品名ベースのSEOメタデータを動的生成。
 
 **SEO/AIO**: 商品詳細ページで `src/lib/json-ld.ts` の `buildProductJsonLd()` が Product スキーマ（`offers` + 編集部レビューの `review`）のJSON-LDを生成し、`<script type="application/ld+json">` で出力（`requirements.md` 6章）。絶対URL解決は `src/lib/site.ts` の `SITE_URL`（Vercel本番環境では `VERCEL_PROJECT_PRODUCTION_URL` を自動使用）。
 
 **UIコンポーネント構成**:
 - `src/components/ui/` — shadcn/ui生成コンポーネント。`button.tsx` に独自 `variant="cta"`（Amazonオレンジ）/ `variant="rakuten"`（楽天レッド）を追加済み（アフィリエイトCTA用）。
-- `src/components/product/product-card.tsx` — 商品カードの共通コンポーネント。トップページのランキングと検索結果グリッドの両方で使用（`rank` prop指定時のみランキングバッジ表示）。
-- `src/app/layout.tsx` — `SiteHeader` と共通コンテナ（`max-w-6xl`）をここで一元管理。各ページはコンテンツ本体のみを返す。
+- `src/components/common/` — ページ横断の表示部品。`SectionHeading`（見出し、h1/h2・アイコン任意）/ `Price` / `Rating`（★は `--rating` で全ページ統一）/ `Breadcrumb`。価格・評価・見出しは直書きせずこれらを使う。
+- `src/components/product/product-card.tsx` — 商品カードの共通コンポーネント。トップページのランキングと検索結果グリッドの両方で使用（`rank` prop指定時のみランキングバッジ表示。1〜3位は金・銀・銅）。
+- `src/components/product/` — 商品詳細用に `product-hero.tsx`（ファーストビュー）/ `sticky-cta-bar.tsx`（モバイル追従CTA。`article` 末尾の `position: sticky` でJS不要）/ `spec-table.tsx` / `pros-cons-table.tsx` / `affiliate-cta.tsx`。
+- `src/components/home/` — トップページ用。初心者セットは `beginner-set.tsx`（本体・JSON-LD・合計金額）/ `beginner-set-item-card.tsx` / `beginner-set-items.ts`（構成定義、`optional` で任意品を区別）に分割。
+- `src/app/layout.tsx` — `SiteHeader` / `SiteFooter` と共通コンテナ（`max-w-6xl`）をここで一元管理。各ページはコンテンツ本体のみを返す。
 
-**テーマ**: ライト/ダーク切り替えなしで常時ライトテーマ固定（`layout.tsx` の `<html>` に `dark` クラスは付与しない）。CTAカラー（`--cta`/`--rakuten` 系）は `globals.css` のCSS変数として定義（`requirements.md` 5章）。
+**ユーティリティ**:
+- `src/lib/format.ts` — `formatPrice()`（価格表示）/ `shortenTitle()`（括弧書き除去）。価格フォーマッタを各ファイルで個別に定義しないこと。
+- `src/lib/images.ts` — `toHighResImage()`。楽天サムネイルURLの `_ex=` を表示時に `500x500` へ置換する（Markdown側は変更しない）。商品画像を表示する箇所では必ず通す。
+- `src/lib/sort-options.ts` — 並び替えのラベル・表示順・デフォルト値。`products.ts` は fs 依存でクライアントから読めないため、クライアントコンポーネントはこちらを参照する。
+
+**テーマ**: ライト/ダーク切り替えなしで常時ライトテーマ固定（`layout.tsx` の `<html>` に `dark` クラスは付与しない）。未使用の `.dark` トークンは削除済みだが、shadcn/ui部品が `dark:` を使うため `@custom-variant dark` の行は削除しないこと。CTAカラー（`--cta`/`--rakuten` 系）・`--rating`・`--success` は `globals.css` のCSS変数として定義（`requirements.md` 5章、トークン一覧は `ui_spec.md` 9章）。フォントは `layout.tsx` で `next/font/google` の Noto Sans JP を読み込み、`--font-noto-sans-jp` 経由で適用。
+
+**パララックス演出（トップページ）**: CSSスクロール駆動アニメーション（`animation-timeline`）で実装し、JSは使わない。定義は `globals.css` の `@supports (animation-timeline: scroll())` + `@media (prefers-reduced-motion: no-preference)` 内に集約（「自前の複雑なCSSは書かない」ルールの合意済み例外）。
+- クラス: `.parallax-scroll`（ページ先頭からのスクロール連動）/ `.parallax-view`（要素の画面通過に連動）/ `.reveal`（フェードアップ、`--reveal-stagger` で遅延）/ `.rank-shine`（ランキングバッジの光沢）。移動量はコンポーネント側で `[--parallax-from:..]` / `[--parallax-to:..]` を指定。
+- 動かすのは `translate` / `opacity` のみ（CLS・LCPに影響させない）。LCP要素やファーストビューの要素を `opacity: 0` から始めないこと。
+- `view()` を使う要素の祖先に `overflow-hidden` があると、その要素がスクロールコンテナ扱いになり動かない。祖先は `overflow-clip` にするか、名前付きタイムライン（`view-timeline-name`）を祖先に宣言して参照する。
+- `translate` を使うhover演出（`hover:-translate-y-*`）と同じ要素に `.reveal` を付けると競合するため、ラッパー要素側に付ける。
+- 非対応ブラウザ（Firefox）と「視差効果を減らす」設定の環境では静止表示になる。開発PCが後者の設定だと動きが見えないため、確認時は DevTools > Rendering で `prefers-reduced-motion` を `no-preference` にエミュレートする。
 
 ## Windows固有の注意
 
 Windowsはファイル名の大小文字を区別しないため、`create-next-app`/`next dev` が自動生成する `CLAUDE.md`（Next.js標準のAGENTS.md参照ファイル）は本ファイルと同一パス扱いになる。このファイルを上書きしないこと。`AGENTS.md` は別ファイルとして存在し、`next dev` 実行時に自動生成・更新される（手動編集不要）。
+
+## Git運用の注意
+
+GitHub Actions が商品を自動追加し `main` に直接コミットする（`chore: auto-import new product ...`）。push 前に `git fetch` し、リモートが進んでいれば `git rebase origin/main` → `pnpm build` で確認してから push すること。
