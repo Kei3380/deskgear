@@ -12,7 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { Card } from "@/components/ui/card";
+import { SectionHeading } from "@/components/common/section-heading";
 import { CATEGORIES } from "@/lib/categories";
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -27,12 +27,12 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   security: ShieldCheck,
 };
 
-export function CategoryGrid() {
+export function CategoryGrid({ counts }: { counts: Record<string, number> }) {
   return (
     <section aria-labelledby="category-heading">
-      <h2 id="category-heading" className="mb-4 font-heading text-xl font-semibold">
-        カテゴリ
-      </h2>
+      <SectionHeading id="category-heading" className="mb-4">
+        カテゴリから探す
+      </SectionHeading>
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-5 md:grid-cols-6">
         {CATEGORIES.map((category) => {
           const Icon = CATEGORY_ICONS[category.slug] ?? Keyboard;
@@ -40,12 +40,15 @@ export function CategoryGrid() {
             <Link
               key={category.slug}
               href={`/search?category=${category.slug}`}
-              className="block h-full"
+              className="group flex h-full flex-col items-center gap-2 rounded-xl border border-border bg-card p-3 text-center shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md sm:p-4"
             >
-              <Card className="h-full items-center gap-2 p-4 text-center transition-all duration-200 hover:border-primary/60 hover:bg-accent hover:shadow-md">
-                <Icon className="size-6 text-primary" />
-                <span className="text-sm font-medium">{category.label}</span>
-              </Card>
+              <span className="flex size-11 items-center justify-center rounded-full bg-accent text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <Icon className="size-5" aria-hidden />
+              </span>
+              <span className="text-xs font-medium leading-snug sm:text-sm">{category.label}</span>
+              <span className="text-[11px] text-muted-foreground tabular-nums">
+                {counts[category.slug] ?? 0}件
+              </span>
             </Link>
           );
         })}

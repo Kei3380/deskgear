@@ -1,31 +1,37 @@
 import Link from "next/link";
-import { Clock, Cpu } from "lucide-react";
-import { SITE_LAST_UPDATED_LABEL } from "@/lib/site";
+import { Cpu, PackageOpen, Search } from "lucide-react";
+
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 font-heading text-lg font-semibold">
-          <Cpu className="size-5 text-primary" />
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4">
+        <Link href="/" className="flex items-center gap-2 font-heading text-lg font-bold tracking-tight">
+          <Cpu className="size-5 text-primary" aria-hidden />
           <span>
             DESK<span className="text-primary">GEAR</span>
           </span>
         </Link>
-        <nav className="flex items-center gap-4 text-sm text-muted-foreground">
-          <Link href="/" className="transition-colors hover:text-foreground">
-            トップ
+        <nav aria-label="グローバルナビゲーション" className="flex items-center gap-1 text-sm sm:gap-2">
+          <Link
+            href="/#beginner-set"
+            className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <PackageOpen className="size-4" aria-hidden />
+            <span>
+              <span className="hidden sm:inline">初心者</span>セット
+            </span>
           </Link>
-          <Link href="/search" className="transition-colors hover:text-foreground">
+          <Link
+            href="/search"
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "gap-1.5")}
+          >
+            <Search className="size-4" aria-hidden />
             商品検索
           </Link>
         </nav>
-      </div>
-      <div className="border-t border-border/40 bg-background/60">
-        <div className="mx-auto flex max-w-6xl items-center gap-1.5 px-4 py-1 text-xs text-muted-foreground">
-          <Clock className="size-3.5" />
-          最終更新日：{SITE_LAST_UPDATED_LABEL}
-        </div>
       </div>
     </header>
   );

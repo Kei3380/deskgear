@@ -2,6 +2,7 @@ import { CategoryGrid } from "@/components/home/category-grid";
 import { RankingList } from "@/components/home/ranking-list";
 import { SearchPanel } from "@/components/home/search-panel";
 import { BeginnerSet } from "@/components/home/beginner-set";
+import { HomeIntro } from "@/components/home/home-intro";
 import { getAllProducts, getManufacturers, getManufacturersByCategory } from "@/lib/products";
 
 export default function Home() {
@@ -16,11 +17,16 @@ export default function Home() {
     .slice(0, 10);
   const manufacturers = getManufacturers();
   const manufacturersByCategory = getManufacturersByCategory();
+  const categoryCounts = allProducts.reduce<Record<string, number>>((acc, p) => {
+    acc[p.category] = (acc[p.category] ?? 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <>
+      <HomeIntro productCount={allProducts.length} />
       <BeginnerSet products={allProducts} />
-      <CategoryGrid />
+      <CategoryGrid counts={categoryCounts} />
       <SearchPanel
         manufacturers={manufacturers}
         manufacturersByCategory={manufacturersByCategory}

@@ -1,14 +1,16 @@
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ImageIcon, Star } from "lucide-react";
+import { ListChecks, MessageSquareText, Scale } from "lucide-react";
 
+import { Breadcrumb } from "@/components/common/breadcrumb";
+import { SectionHeading } from "@/components/common/section-heading";
 import { AffiliateCta } from "@/components/product/affiliate-cta";
+import { ProductHero } from "@/components/product/product-hero";
 import { ProsConsTable } from "@/components/product/pros-cons-table";
 import { SpecTable } from "@/components/product/spec-table";
-import { Badge } from "@/components/ui/badge";
+import { StickyCtaBar } from "@/components/product/sticky-cta-bar";
 import { CATEGORIES } from "@/lib/categories";
+import { shortenTitle } from "@/lib/format";
 import { buildProductJsonLd, jsonLdToScriptHtml } from "@/lib/json-ld";
 import { getAllProducts, getProductBySlug } from "@/lib/products";
 
@@ -47,78 +49,47 @@ export default async function ProductDetailPage(
         dangerouslySetInnerHTML={{ __html: jsonLdToScriptHtml(productJsonLd) }}
       />
 
-      <Link
-        href={`/search?category=${product.category}`}
-        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-      >
-        ← {categoryLabel ?? "商品一覧"}に戻る
-      </Link>
-
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="relative flex aspect-video items-center justify-center overflow-hidden rounded-lg bg-muted">
-          {product.image ? (
-            <Image
-              src={product.image}
-              alt={product.title}
-              fill
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-contain"
-            />
-          ) : (
-            <ImageIcon className="size-12 text-muted-foreground" />
-          )}
-        </div>
-        <div className="flex flex-col justify-center gap-3">
-          {categoryLabel && <Badge variant="secondary">{categoryLabel}</Badge>}
-          <h1 className="font-heading text-2xl font-semibold sm:text-3xl">
-            {product.title}
-          </h1>
-          <p className="text-sm text-muted-foreground">{product.manufacturer}</p>
-          <div className="flex items-center gap-1 text-sm">
-            {product.rating !== null ? (
-              <>
-                <Star className="size-4 fill-primary text-primary" />
-                <span className="font-medium">{product.rating.toFixed(1)}</span>
-                <span className="text-muted-foreground">/ 5.0</span>
-              </>
-            ) : (
-              <span className="text-muted-foreground">評価未定</span>
-            )}
-          </div>
-          <AffiliateCta links={product.affiliateLinks} />
-        </div>
+      <div className="flex flex-col gap-4">
+        <Breadcrumb
+          items={[
+            { label: "トップ", href: "/" },
+            {
+              label: categoryLabel ?? "商品一覧",
+              href: categoryLabel ? `/search?category=${product.category}` : "/search",
+            },
+            { label: shortenTitle(product.title) },
+          ]}
+        />
+        <ProductHero product={product} categoryLabel={categoryLabel} />
       </div>
 
       <section aria-labelledby="spec-heading" className="flex flex-col gap-3">
-        <h2 id="spec-heading" className="font-heading text-xl font-semibold">
-          スペック
-        </h2>
+        <SectionHeading id="spec-heading" icon={ListChecks}>スペック</SectionHeading>
         <SpecTable product={product} />
       </section>
 
       <section aria-labelledby="pros-cons-heading" className="flex flex-col gap-3">
-        <h2 id="pros-cons-heading" className="font-heading text-xl font-semibold">
-          メリット・デメリット
-        </h2>
+        <SectionHeading id="pros-cons-heading" icon={Scale}>メリット・デメリット</SectionHeading>
         <ProsConsTable product={product} />
       </section>
 
-      <section
-        aria-labelledby="review-heading"
-        className="flex flex-col gap-3 [&_h2]:mt-2 [&_h2]:font-heading [&_h2]:text-lg [&_h2]:font-semibold [&_li]:leading-relaxed [&_p]:leading-relaxed [&_p]:text-foreground/90 [&_ul]:list-disc [&_ul]:pl-5"
-      >
-        <h2 id="review-heading" className="font-heading text-xl font-semibold">
-          レビュー
-        </h2>
-        <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      <section aria-labelledby="review-heading" className="flex flex-col gap-3">
+        <SectionHeading id="review-heading" icon={MessageSquareText}>編集部レビュー</SectionHeading>
+        {/* Markdown本文。@tailwindcss/typography を使わず任意セレクタで最低限の本文スタイルを当てる */}
+        <div
+          className="rounded-2xl bg-card p-5 ring-1 ring-border sm:p-8 [&_a]:text-primary [&_a]:underline [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:border-l-4 [&_h2]:border-primary [&_h2]:pl-3 [&_h2]:font-heading [&_h2]:text-lg [&_h2]:font-semibold [&_h2:first-child]:mt-0 [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:font-semibold [&_li]:leading-relaxed [&_li+li]:mt-1.5 [&_p]:leading-loose [&_p]:text-foreground/90 [&_p+p]:mt-4 [&_strong]:font-semibold [&_strong]:text-foreground [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:marker:text-primary"
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
+        />
       </section>
 
-      <div className="rounded-lg bg-card p-6 ring-1 ring-border">
-        <p className="mb-4 text-center text-sm text-muted-foreground">
+      <div className="flex flex-col gap-4 rounded-2xl bg-accent/60 p-6 sm:p-8">
+        <p className="text-center text-sm font-medium text-accent-foreground">
           気になった方はこちらから最新価格をチェック
         </p>
         <AffiliateCta links={product.affiliateLinks} />
       </div>
+
+      <StickyCtaBar product={product} />
     </article>
   );
 }

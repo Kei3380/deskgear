@@ -1,12 +1,8 @@
 import type { ReactNode } from "react";
 
 import { CATEGORIES } from "@/lib/categories";
+import { formatPrice } from "@/lib/format";
 import type { Product } from "@/types/product";
-
-const priceFormatter = new Intl.NumberFormat("ja-JP", {
-  style: "currency",
-  currency: "JPY",
-});
 
 const dateFormatter = new Intl.DateTimeFormat("ja-JP", {
   year: "numeric",
@@ -40,7 +36,7 @@ const SPEC_ROWS: { label: string; render: (product: Product) => ReactNode }[] = 
       return dateFormatter.format(new Date(p.releaseDate));
     },
   },
-  { label: "参考価格", render: (p) => priceFormatter.format(p.price) },
+  { label: "参考価格", render: (p) => formatPrice(p.price) },
   {
     label: "総合評価",
     render: (p) => (p.rating !== null ? `${p.rating.toFixed(1)} / 5.0` : "評価未定"),

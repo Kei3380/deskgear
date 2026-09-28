@@ -511,3 +511,62 @@ pnpm add gray-matter remark remark-html
 ### 動作確認
 - `pnpm lint` / `pnpm build` エラーなし
 - ブラウザで確認: トップページの「並び替え」初期表示が「価格が高い順」になっていること、「この条件で検索」を押下すると`/search?sort=price_desc`に遷移し、検索結果が¥369,800→¥319,000→¥299,800→¥254,700→¥249,700→¥200,600...と価格降順で正しく並ぶことを確認
+
+---
+
+## 18. サイト全体のデザイン見直し
+
+### 概要
+ユーザーから「全体的なデザインの見直し」の依頼を受け、フェーズ1〜8に分けて段階的に実施した（各フェーズ完了ごとにユーザー承認を得て次へ進行）。事前にユーザーと合意した方針は以下の4点。
+- 配色: 既存のインディゴ系プライマリ（`oklch(0.45 0.18 265)`）を維持し、トークン整理と使い方の統一に留める
+- フォント: `next/font/google` で Noto Sans JP に統一（全端末で同じ表示にするため）
+- 画像: 楽天サムネイルURLの `_ex=` サイズ指定を表示時に `500x500` へ置換（Markdownは変更しない）
+- 範囲: 全フェーズを実施
+
+### 追加した依存パッケージ
+なし（`next/font/google` はNext.js組み込み）。
+
+### 変更内容
+- **フェーズ1: デザイントークン整理**
+  - `src/app/globals.css`: フォントを Noto Sans JP（`--font-noto-sans-jp`）優先に変更。未使用の `.dark` ブロック・sidebar/chart トークンを削除。メリット表示用 `--success` を追加。shadcn/ui部品が `dark:` を使うため `@custom-variant dark` は残置（削除するとOSのダークモードに反応してしまう）
+  - `src/app/layout.tsx`: `Noto_Sans_JP`（可変ウェイト、`subsets: ["latin"]`、`display: "swap"`）を読み込み `<html>` に適用
+- **フェーズ2: 共通部品**
+  - 新規 `src/lib/format.ts`（`formatPrice` / `shortenTitle`）で重複していた価格フォーマッタ（3箇所）とタイトル短縮正規表現（2箇所）を集約
+  - 新規 `src/components/common/price.tsx` / `rating.tsx` / `section-heading.tsx`。★の色を全ページ `--rating` に統一（詳細ページは従来 `fill-primary` だった）
+- **フェーズ3: ヘッダー・フッター**
+  - `site-header.tsx`: 2段構成→1段（h-14）に。ナビを「初心者セット（`/#beginner-set`）」「商品検索（outlineボタン）」に変更
+  - `site-footer.tsx`: サイト概要 / カテゴリ9件への内部リンク / サイト情報 の3カラム + 広告開示・最終更新日・コピーライト
+  - `layout.tsx`: `scroll-pt-16` を付与（アンカー移動時に固定ヘッダーで見出しが隠れないように）
+- **フェーズ4: 商品カード**
+  - 新規 `src/lib/images.ts`（`toHighResImage`）: 楽天サムネイルの `_ex` を `500x500` に置換。不正URLはコンソールにエラーを出して元URLを返す
+  - `product-card.tsx`: 画像枠 16:9→4:3・白背景・hoverで拡大。順位バッジを画像内左上に移動し、1〜3位は金・銀・銅色。タイトルを2行分の高さで固定し、価格・CTAをカード下端に揃えた
+- **フェーズ5: トップページ**
+  - 新規 `home-intro.tsx`: ページ唯一の h1・リード文（商品数を表示）・最終更新日
+  - 初心者セットを `beginner-set.tsx`（本体・JSON-LD・合計金額）/ `beginner-set-item-card.tsx`（個別カード）/ `beginner-set-items.ts`（構成定義。`optional` フラグを追加）に分割
+  - 任意品バッジを白地で区別、セット合計金額（必須2点 / モニター込み3点）を表示、ヒーロー画像にテキストオーバーレイ、モバイル時のヒーローを 16:9 に（`ui_spec.md` 8章の改修候補4件すべて対応）
+  - `category-grid.tsx`: 見出しを「カテゴリから探す」に、アイコンを丸背景で囲み、カテゴリ別商品件数を表示（`page.tsx` で集計して渡す）
+  - `ranking-list.tsx`: `id="ranking"` を付与、トロフィーアイコンと「すべて見る」（`/search?sort=rating_desc`）リンクを追加
+- **フェーズ6: 商品詳細ページ**
+  - 新規 `common/breadcrumb.tsx`（トップ ＞ カテゴリ ＞ 商品名）
+  - 新規 `product/product-hero.tsx`: 高解像度画像（正方形・白背景、`loading="eager"` + `fetchPriority="high"`）、価格の大きな表示（従来はファーストビューに価格がなかった）、特徴タグのチップ表示、価格注記
+  - 新規 `product/sticky-cta-bar.tsx`: モバイル専用の追従CTAバー。`article` 末尾に `position: sticky` で配置し、JS不要でフッターに重ならない
+  - `products/[slug]/page.tsx`: 上記部品で再構成。レビュー本文をカードで囲み、任意セレクタで見出し・段落・リストの本文スタイルを調整（`@tailwindcss/typography` は未導入）
+  - `pros-cons-table.tsx`: `emerald-400`/`rose-400` を `text-success`/`text-destructive` に変更（白背景でのコントラスト改善）
+- **フェーズ7: 検索結果ページ**
+  - `search/page.tsx`: パンくず・h1（カテゴリ指定時「○○の商品一覧」）を先頭に移動。`SearchPanel` に検索条件ベースの `key` を付与し、URL変更時に選択状態がリセットされるよう修正（従来はフッター等から条件が変わってもパネルが古い値のままだった）
+  - 新規 `search/active-filters.tsx`: 適用中の条件をチップ表示し、個別解除・すべてクリアが可能
+  - `search/product-grid.tsx`: 0件時の表示をアイコン＋案内＋「条件をクリア」「ランキングを見る」ボタンに刷新
+  - 新規 `src/lib/sort-options.ts`: 並び替えラベルをクライアント/サーバー共通で参照できるよう集約（`products.ts` は fs 依存のためクライアントから読めない）
+- **フェーズ8: ドキュメント**
+  - 本セクションの追記、`ui_spec.md` に「9. デザイン見直し後の仕様」を追記し8章の改修候補にチェック
+
+### 動作確認
+- 各フェーズ完了時に `pnpm lint` / `pnpm build`（79ページ生成）エラーなし
+- ブラウザ拡張で実ブラウザ（デスクトップ幅）確認: トップ（h1・初心者セット合計金額・カテゴリ件数・ランキングバッジ）、商品詳細（パンくず・価格表示・レビュー本文・メリット/デメリット配色）、検索結果（条件チップ・0件表示）
+- 楽天 `_ex=500x500` 画像が取得できること（200 / 約41KB）を確認
+- 未確認: モバイル幅での表示（ブラウザウィンドウのリサイズが反映されなかったため。追従CTAバーは `md` 未満でのみ表示）
+
+### 残課題（本作業のスコープ外）
+- `product-card.tsx` / `affiliate-cta.tsx` / `sticky-cta-bar.tsx` のアフィリエイトリンクに `rel="sponsored"` が未付与（`beginner-set-item-card.tsx` のみ付与済み）
+- 検索結果ページの `<title>` がサイト共通のまま（`generateMetadata` 未実装）
+- URLに存在しないメーカー名が指定された場合、メーカーSelectが空表示になる

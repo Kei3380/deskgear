@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SlidersHorizontal } from "lucide-react";
 
+import { SectionHeading } from "@/components/common/section-heading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -15,21 +16,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CATEGORIES } from "@/lib/categories";
-
-const SORT_OPTIONS = [
-  { value: "price_desc", label: "価格が高い順" },
-  { value: "price_asc", label: "価格が安い順" },
-  { value: "rating_desc", label: "評価が高い順" },
-  { value: "release_desc", label: "発売日が新しい順" },
-];
+import { SORT_LABELS, SORT_OPTION_ITEMS } from "@/lib/sort-options";
 
 const CATEGORY_LABELS: Record<string, string> = {
   all: "すべて",
   ...Object.fromEntries(CATEGORIES.map((c) => [c.slug, c.label])),
 };
-const SORT_LABELS: Record<string, string> = Object.fromEntries(
-  SORT_OPTIONS.map((o) => [o.value, o.label])
-);
+const SORT_LABEL_MAP: Record<string, string> = SORT_LABELS;
 
 export type SearchPanelValues = {
   category?: string;
@@ -83,10 +76,9 @@ export function SearchPanel({
   return (
     <Card>
       <CardContent>
-        <div className="mb-4 flex items-center gap-2 font-heading text-lg font-semibold">
-          <SlidersHorizontal className="size-5 text-primary" />
+        <SectionHeading icon={SlidersHorizontal} className="mb-4 text-lg">
           絞り込み検索
-        </div>
+        </SectionHeading>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:items-end">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="search-category">カテゴリ</Label>
@@ -134,11 +126,11 @@ export function SearchPanel({
             <Select value={sort} onValueChange={(value) => setSort(value ?? "price_desc")}>
               <SelectTrigger id="search-sort" className="w-full">
                 <SelectValue>
-                  {(value: string | null) => SORT_LABELS[value ?? "price_desc"]}
+                  {(value: string | null) => SORT_LABEL_MAP[value ?? "price_desc"]}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {SORT_OPTIONS.map((option) => (
+                {SORT_OPTION_ITEMS.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
