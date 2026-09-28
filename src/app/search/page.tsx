@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { Breadcrumb } from "@/components/common/breadcrumb";
 import { SectionHeading } from "@/components/common/section-heading";
 import { SearchPanel } from "@/components/home/search-panel";
@@ -22,6 +24,34 @@ function isSortOption(value: string | undefined): value is SortOption {
   return SORT_OPTIONS.includes(value as SortOption);
 }
 
+/**
+ * 検索条件からページ見出し（h1）・<title> 用の文言を組み立てる。
+ * 実在しないカテゴリslug・メーカー名はURLに直接書かれても文言に含めない。
+ */
+function buildSearchTitle(categoryParam?: string, manufacturerParam?: string): string {
+  const categoryLabel = CATEGORIES.find((c) => c.slug === categoryParam)?.label;
+  const manufacturer =
+    manufacturerParam && getManufacturers().includes(manufacturerParam) ? manufacturerParam : undefined;
+
+  if (manufacturer && categoryLabel) return `${manufacturer}の${categoryLabel}一覧`;
+  if (categoryLabel) return `${categoryLabel}の商品一覧`;
+  if (manufacturer) return `${manufacturer}の商品一覧`;
+  return "商品検索";
+}
+
+export async function generateMetadata(props: PageProps<"/search">): Promise<Metadata> {
+  const searchParams = await props.searchParams;
+  const title = buildSearchTitle(
+    firstParam(searchParams.category),
+    firstParam(searchParams.manufacturer)
+  );
+
+  return {
+    title: `${title} | DESKGEAR`,
+    description: `${title === "商品検索" ? "デスク周辺機器" : title.replace(/一覧$/, "")}を価格・評価・発売日で比較。編集部レビュー付きで、自分に合う1台がすぐ見つかります。`,
+  };
+}
+
 export default async function SearchPage(props: PageProps<"/search">) {
   const searchParams = await props.searchParams;
 
@@ -38,7 +68,7 @@ export default async function SearchPage(props: PageProps<"/search">) {
 
   const categoryLabel = CATEGORIES.find((c) => c.slug === categoryParam)?.label;
 
-  const pageTitle = categoryLabel ? `${categoryLabel}の商品一覧` : "商品検索";
+  const pageTitle = buildSearchTitle(categoryParam, manufacturerParam);
 
   return (
     <>
