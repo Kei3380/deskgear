@@ -8,7 +8,7 @@ import { HomeIntro } from "@/components/home/home-intro";
 import { getAllProducts, getManufacturers, getManufacturersByCategory } from "@/lib/products";
 
 // 背景②の上に載せるパネル（模様の上でも見出し・カードが読めるよう不透明の地色にする）
-const PANEL_CLASS = "rounded-2xl bg-background p-4 shadow-xl sm:p-6";
+const PANEL_CLASS = "rounded-2xl bg-background p-3 shadow-xl sm:p-6";
 
 export default function Home() {
   // getAllProducts() を1回呼び出して各コンポーネントへ渡す（ファイルI/O削減）
@@ -34,7 +34,7 @@ export default function Home() {
         backdrop={<DeskPhotoBackdrop />}
         backdropHeight="65svh"
         className="bg-slate-900"
-        contentClassName="px-4 pb-4 sm:px-8 sm:pb-8"
+        contentClassName="px-3 pb-3 sm:px-8 sm:pb-8"
       >
         <HomeIntro productCount={allProducts.length} />
         <BeginnerSet products={allProducts} />
@@ -43,7 +43,7 @@ export default function Home() {
       <BackdropSection
         backdrop={<DotPatternBackdrop />}
         className="bg-slate-900"
-        contentClassName="flex flex-col gap-6 p-4 sm:gap-8 sm:p-8"
+        contentClassName="flex flex-col gap-4 p-3 sm:gap-8 sm:p-8"
       >
         <div className={PANEL_CLASS}>
           <CategoryGrid counts={categoryCounts} />

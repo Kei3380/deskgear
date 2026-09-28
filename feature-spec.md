@@ -672,3 +672,12 @@ pnpm add gray-matter remark remark-html
   - 背景を1画面の高さにすると写真の左右が大きく切れ、机上の機材がカードに隠れて壁しか見えなかった → 写真をh1の背後（65svh）のみに置き、下は濃紺で埋めた
   - 背景が高いと固定距離（区画の高さ − 背景の高さ）が約250pxしかなかった → 背景を65svhにして約700pxに延長
 - 未確認: 実機（iOS Safari 等）での見た目。ブラウザ拡張のスクリーンショットは描画停止でタイムアウトしたため、目視は上記のヘッドレス撮影のみ
+
+### 追加修正（本番のスマホ表示確認後）
+本番（deskgear-nu.vercel.app）を幅390px / 360px の iframe でヘッドレス撮影して確認したところ、背景固定の窓とパネルの余白（各16px）でスマホの内容幅が約64px狭くなり、折り返しが崩れていたため修正。
+- `src/app/page.tsx`: スマホ時の窓・パネルの余白を 16px → 12px（`p-3`）、区画内の間隔を `gap-4` に
+- `src/components/home/category-grid.tsx`: カテゴリ名を `word-break: keep-all` + `<wbr>` で語の切れ目（例「デスクトップ／パソコン」「ノート／パソコン」）でのみ改行（区切り位置は表示専用の `LABEL_BREAKS`。`CATEGORIES` の表示名と一致しない場合は分割しない）。収まらない場合は `overflow-wrap: anywhere` ではみ出し防止。スマホの文字サイズを 11px、カードの左右余白・間隔を縮小
+- `src/components/home/ranking-list.tsx`: 見出しを `keep-all` にし「ベス／ト10」のような途中改行を防止。スマホでは「すべて見る」を見出しの下の行に配置
+- `src/components/common/section-heading.tsx`: アイコンに `shrink-0`（見出しが折り返すとアイコンが縮んでいた）
+- `src/components/layout/site-header.tsx`: 「セット」リンクに `whitespace-nowrap`（360px幅で「セ／ット」と折り返していた。全ページ共通のヘッダーだが表示のみの修正）
+- 確認: 同じ iframe 撮影で 390px / 360px ともカテゴリ名・ランキング見出し・ヘッダーが語の途中で折り返さないことを確認。なお iframe はスクロールバー（約15px）ぶん実機より狭い条件

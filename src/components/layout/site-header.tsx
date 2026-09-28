@@ -20,7 +20,7 @@ export function SiteHeader() {
             className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <PackageOpen className="size-4" aria-hidden />
-            <span>
+            <span className="whitespace-nowrap">
               <span className="hidden sm:inline">初心者</span>セット
             </span>
           </Link>

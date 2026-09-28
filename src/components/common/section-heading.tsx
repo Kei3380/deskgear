@@ -22,7 +22,7 @@ export function SectionHeading({
       id={id}
       className={cn("flex items-center gap-2 font-heading text-xl font-semibold", className)}
     >
-      {Icon && <Icon className="size-5 text-primary" aria-hidden />}
+      {Icon && <Icon className="size-5 shrink-0 text-primary" aria-hidden />}
       {children}
     </Tag>
   );

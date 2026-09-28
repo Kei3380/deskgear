@@ -11,13 +11,17 @@ export function RankingList({ products }: { products: Product[] }) {
 
   return (
     <section id="ranking" aria-labelledby="ranking-heading">
-      <div className="mb-4 flex items-end justify-between gap-4">
-        <SectionHeading id="ranking-heading" icon={Trophy}>
+      <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+        <SectionHeading
+          id="ranking-heading"
+          icon={Trophy}
+          className="[overflow-wrap:anywhere] [word-break:keep-all]"
+        >
           総合おすすめランキング ベスト10
         </SectionHeading>
         <Link
           href="/search?sort=rating_desc"
-          className="inline-flex shrink-0 items-center gap-1 text-sm text-primary hover:underline"
+          className="inline-flex shrink-0 items-center gap-1 self-end text-sm text-primary hover:underline sm:self-auto"
         >
           すべて見る
           <ArrowRight className="size-3.5" aria-hidden />
