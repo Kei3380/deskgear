@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowRight, Trophy } from "lucide-react";
 
@@ -24,7 +25,14 @@ export function RankingList({ products }: { products: Product[] }) {
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {top10.map((product, index) => (
-          <ProductCard key={product.slug} product={product} rank={index + 1} />
+          // grid でカードを枠いっぱいに伸ばし、列ごとに表示完了タイミングをずらす
+          <div
+            key={product.slug}
+            className="reveal grid [view-timeline-name:--rank-card]"
+            style={{ "--reveal-stagger": `${(index % 3) * 12}%` } as CSSProperties}
+          >
+            <ProductCard product={product} rank={index + 1} />
+          </div>
         ))}
       </div>
     </section>

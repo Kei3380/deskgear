@@ -570,3 +570,40 @@ pnpm add gray-matter remark remark-html
 - `product-card.tsx` / `affiliate-cta.tsx` / `sticky-cta-bar.tsx` のアフィリエイトリンクに `rel="sponsored"` が未付与（`beginner-set-item-card.tsx` のみ付与済み）
 - 検索結果ページの `<title>` がサイト共通のまま（`generateMetadata` 未実装）
 - URLに存在しないメーカー名が指定された場合、メーカーSelectが空表示になる
+
+---
+
+## 19. トップページのパララックス演出
+
+### 概要
+ユーザーから「パララックスを使った遊び心のあるトップページにしたい。表示レスポンスに大きく影響しない、少し動きのあるデザイン」という依頼を受け、CSSスクロール駆動アニメーション（`animation-timeline: scroll()` / `view()`）で4つの演出を実装した。JSは一切使わず、`translate` / `opacity` のみを動かすためレイアウト（CLS）・LCPに影響しない。事前にユーザーと合意した方針は以下。
+- `globals.css` への自前CSS追加を許容（Tailwindに `animation-timeline` のユーティリティがないため。CLAUDE.md「自前の複雑なCSSは書かない」の例外として合意）
+- 採用演出: A（h1背景アイコン）/ B（ヒーロー画像）/ C（カテゴリカード）/ D（ランキング）。E（セット合計金額）は不採用
+- 非対応ブラウザ（Firefox等）は静止表示で可（JSフォールバックなし）
+
+### 追加した依存パッケージ
+なし。
+
+### 変更内容
+- `src/app/globals.css`
+  - `@supports (animation-timeline: scroll())` かつ `@media (prefers-reduced-motion: no-preference)` の内側にのみ演出を定義（非対応環境・「視差効果を減らす」設定では何も適用されない）
+  - `.parallax-scroll`: ページ先頭からのスクロール量（0〜100vh）に連動して移動
+  - `.parallax-view`: 要素が画面に入ってから出るまで（`cover`）に連動して移動
+  - `.reveal`: 画面下から入る際にフェードアップ。`--reveal-stagger` で完了タイミングをずらす
+  - `.rank-shine`: ランキング上位バッジの光沢。名前付きタイムライン `--rank-card` を参照
+  - 移動量はコンポーネント側で `[--parallax-from:..]` / `[--parallax-to:..]` のCSS変数で指定。`--parallax-scale` でモバイル（< 640px）は移動量を半分に
+  - `@theme` に `--animate-wiggle`（hover用、`motion-safe:group-hover:animate-wiggle` で使用）
+- **A** `src/components/home/home-intro.tsx`: h1背景にガジェットアイコン6個（モバイル4個）を配置し、-30px〜-130px の異なる速度で流す（小さく濃いほど速い＝手前に見える）。`aria-hidden` / `pointer-events-none`、横はみ出し防止に `overflow-x-clip`
+- **B** `src/components/home/beginner-set.tsx`: ヒーロー画像を上下8%ずつ大きく配置し -32px→+32px、重ねた文字は +10px→-10px（逆方向）に移動。`overflow-hidden` はスクロールコンテナ扱いとなり `view()` が機能しないため、ヒーロー枠とカード全体を `overflow-clip` に変更
+- **C** `src/components/home/category-grid.tsx`: 各カードを `.reveal` のラッパーで包み列ごとに 0〜40% ずらして出現。アイコンはhoverで左右に揺れる。`reveal` と既存のhover浮き上がり（どちらも `translate`）の競合を避けるためラッパー側に付与
+- **D** `src/components/home/ranking-list.tsx` / `src/components/product/product-card.tsx`: カードを `.reveal` のラッパーで包み列ごとに 0/12/24% ずらして出現。1〜3位バッジに斜めの光沢を重ね、カードが入り切ってから画面半ばまでの間に1回通過。バッジの祖先（Card・画像枠）が `overflow-hidden` のため、ラッパーに `view-timeline-name: --rank-card` を宣言して参照。光沢の初期位置はバッジ外のため非対応環境では表示されない
+
+### 動作確認
+- 各演出の実装ごとに `pnpm lint` / `pnpm build`（79ページ）エラーなし。ビルド後CSSに `@supports (animation-timeline: scroll())` が残ることを確認
+- 確認環境のブラウザが `prefers-reduced-motion: reduce` だったため、タブ内に同等の定義を一時注入して計測（コードは変更せず）:
+  - A: スクロール 250px / 600px で各アイコンが設計比率どおり移動（例: モニター -30px × 600/1107 = -16.26px と一致）
+  - B: ヒーロー画像 -3.7px→+32px、文字 +5.7px→-10px と逆方向に移動
+  - C: カード上端の進入に合わせ opacity 0→1、列ごとに遅延（例: 0.98 / 0.93 / 0.88 / 0.82 / 0.77 / 0.73）
+  - D: カードのフェードアップを確認（例: 0.55 / 0.47 / 0.41）
+- 未確認: D のバッジ光沢の見た目（ブラウザタブが非表示状態で描画が止まり、スクリーンショットもタイムアウトしたため）。実機では DevTools > Rendering で `prefers-reduced-motion` を `no-preference` にして目視確認すること
+- 注意: OSの「アニメーション効果」がオフの端末では、設計どおり演出はすべて止まる

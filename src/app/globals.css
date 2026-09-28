@@ -41,6 +41,14 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* カテゴリアイコンのhover演出（motion-safe:group-hover:animate-wiggle で使用） */
+  --animate-wiggle: wiggle 0.5s ease-in-out;
+  @keyframes wiggle {
+    0%, 100% { rotate: 0deg; }
+    25% { rotate: -12deg; }
+    75% { rotate: 12deg; }
+  }
 }
 
 :root {
@@ -102,5 +110,87 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/*
+ * スクロール駆動アニメーション（パララックス演出）
+ * - JS不要。transform系（translate）と opacity のみを動かし、レイアウト・LCPに影響させない
+ * - 非対応ブラウザ（Firefox等）と「視差効果を減らす」設定の環境では何も適用せず静止表示
+ * - 移動量はコンポーネント側で `[--parallax-to:-40px]` のようにCSS変数で指定する
+ */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* ページ最上部からのスクロール量に連動して移動（ファーストビューの装飾用） */
+    .parallax-scroll {
+      animation: parallax-shift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+
+    /* 要素自身が画面に入ってから出るまでの間に連動して移動（ページ途中の画像・文字用） */
+    .parallax-view {
+      animation: parallax-shift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    /* 画面下から入ってくるときにフェードアップ。--reveal-stagger で完了タイミングをずらし順番に現れるように見せる */
+    .reveal {
+      animation: reveal-up ease-out both;
+      animation-timeline: view();
+      animation-range: entry 0% entry calc(60% + var(--reveal-stagger, 0%));
+    }
+
+    /*
+     * ランキング上位バッジの光沢。カードが画面に入る間に左から右へ1回通過する。
+     * バッジの祖先に overflow-hidden（Card・画像枠）があり view() が使えないため、
+     * ランキングのラッパーに宣言した名前付きタイムライン --rank-card を参照する。
+     */
+    .rank-shine {
+      animation: rank-shine linear both;
+      animation-timeline: --rank-card;
+      animation-range: entry 100% cover 45%;
+    }
+  }
+}
+
+/* モバイルは移動量を半分にする */
+:root {
+  --parallax-scale: 0.5;
+}
+@media (min-width: 640px) {
+  :root {
+    --parallax-scale: 1;
+  }
+}
+
+/* 光沢の初期位置はバッジの外（非対応環境・視差効果を減らす設定では常に非表示） */
+.rank-shine {
+  translate: -120% 0;
+}
+
+@keyframes rank-shine {
+  from {
+    translate: -120% 0;
+  }
+  to {
+    translate: 120% 0;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 calc(24px * var(--parallax-scale));
+  }
+}
+
+@keyframes parallax-shift {
+  from {
+    translate: 0 calc(var(--parallax-from, 0px) * var(--parallax-scale));
+  }
+  to {
+    translate: 0 calc(var(--parallax-to, 0px) * var(--parallax-scale));
   }
 }

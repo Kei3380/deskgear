@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import {
   Keyboard,
@@ -34,22 +35,25 @@ export function CategoryGrid({ counts }: { counts: Record<string, number> }) {
         カテゴリから探す
       </SectionHeading>
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-5 md:grid-cols-6">
-        {CATEGORIES.map((category) => {
+        {CATEGORIES.map((category, index) => {
           const Icon = CATEGORY_ICONS[category.slug] ?? Keyboard;
+          // reveal（translate を使う）は hover の浮き上がりと競合するため、ラッパー側に付与する
+          const revealStyle = { "--reveal-stagger": `${(index % 6) * 8}%` } as CSSProperties;
           return (
-            <Link
-              key={category.slug}
-              href={`/search?category=${category.slug}`}
-              className="group flex h-full flex-col items-center gap-2 rounded-xl border border-border bg-card p-3 text-center shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md sm:p-4"
-            >
-              <span className="flex size-11 items-center justify-center rounded-full bg-accent text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                <Icon className="size-5" aria-hidden />
-              </span>
-              <span className="text-xs font-medium leading-snug sm:text-sm">{category.label}</span>
-              <span className="text-[11px] text-muted-foreground tabular-nums">
-                {counts[category.slug] ?? 0}件
-              </span>
-            </Link>
+            <div key={category.slug} className="reveal" style={revealStyle}>
+              <Link
+                href={`/search?category=${category.slug}`}
+                className="group flex h-full flex-col items-center gap-2 rounded-xl border border-border bg-card p-3 text-center shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md sm:p-4"
+              >
+                <span className="flex size-11 items-center justify-center rounded-full bg-accent text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                  <Icon className="size-5 motion-safe:group-hover:animate-wiggle" aria-hidden />
+                </span>
+                <span className="text-xs font-medium leading-snug sm:text-sm">{category.label}</span>
+                <span className="text-[11px] text-muted-foreground tabular-nums">
+                  {counts[category.slug] ?? 0}件
+                </span>
+              </Link>
+            </div>
           );
         })}
       </div>

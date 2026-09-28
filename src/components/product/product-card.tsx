@@ -22,12 +22,18 @@ function RankBadge({ rank }: { rank: number }) {
   return (
     <span
       className={cn(
-        "absolute top-2 left-2 z-10 flex size-8 items-center justify-center rounded-full text-sm font-bold shadow-sm ring-2",
+        "absolute top-2 left-2 z-10 flex size-8 items-center justify-center overflow-hidden rounded-full text-sm font-bold shadow-sm ring-2",
         RANK_BADGE_CLASSES[rank] ?? "bg-primary text-primary-foreground ring-primary/30"
       )}
       aria-label={`${rank}位`}
     >
-      {rank}
+      {rank <= 3 && (
+        <span
+          aria-hidden
+          className="rank-shine pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/80 to-transparent"
+        />
+      )}
+      <span className="relative">{rank}</span>
     </span>
   );
 }
