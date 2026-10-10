@@ -16,9 +16,9 @@ const notoSansJp = Noto_Sans_JP({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "DESKGEAR | ガジェット特化型アフィリエイトサイト",
+  title: "DESKGEAR｜パソコン選びから始まる、あなたのデスク物語",
   description:
-    "キーボード・マウス・モニターなどデスク周辺機器を、詳細スペックの絞り込み検索で最短比較。",
+    "パソコン選びに迷っている方へ。在宅ワーク・学習・クリエイティブなど、あなたの使い方や暮らしに合わせて、ノートパソコンと一緒に揃えたい周辺機器を組み合わせて提案します。",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
