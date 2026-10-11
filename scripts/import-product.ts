@@ -76,6 +76,8 @@ const AUTO_KEYWORDS = [
   "Lenovo IdeaPad Slim ノートパソコン",
   "GMKtec ミニPC Ryzen",
   "SanDisk ポータブル SSD",
+  "エルゴトロン モニターアーム",
+  "モニターアーム シングル",
 ];
 
 type RakutenItem = {
@@ -242,7 +244,7 @@ async function generateArticleWithGemini(
 - headset (ヘッドセット・イヤホン)
 - webcam (Webカメラ)
 - security (セキュリティソフト・ライセンス)
-- accessory (PCアクセサリ・ケーブル・ハブ等)
+- accessory (PCアクセサリ・モニターアーム・ケーブル・ハブ・電源タップ等)
 
 【出力JSONフォーマット仕様】
 {
