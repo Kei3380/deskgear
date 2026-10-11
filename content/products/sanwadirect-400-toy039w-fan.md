@@ -3,7 +3,7 @@ id: "GADGET-0063"
 status: "published"
 title: "サンワダイレクト マグネット付きUSB扇風機 400-TOY039W（静音 / コードレス / 3WAY）"
 manufacturer: "サンワダイレクト"
-release_date: null
+release_date: "2018-04"
 category: "accessory"
 price: 3580
 rating: 4.30

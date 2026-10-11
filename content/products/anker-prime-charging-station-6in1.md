@@ -3,7 +3,7 @@ id: "GADGET-0057"
 status: "published"
 title: "Anker Prime Charging Station（6-in-1, 140W 充電ステーション / GaNPrime採用）"
 manufacturer: "Anker"
-release_date: null
+release_date: "2023-08"
 category: "accessory"
 price: 14990
 rating: 4.30

@@ -3,7 +3,7 @@ id: "GADGET-0038"
 status: "published"
 title: "HP Series 3 Pro 324pv（23.8インチ フルHD モニター / VA / 100Hz）"
 manufacturer: "HP"
-release_date: null
+release_date: "2024-09"
 category: "monitor"
 price: 11000
 rating: 4.20

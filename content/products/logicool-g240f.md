@@ -3,7 +3,7 @@ id: "GADGET-0105"
 status: "published"
 title: "Logicool G240f レビュー｜1mm厚で操作しやすい標準ゲーミングマウスパッド"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2022-09"
 category: "accessory"
 price: 1700
 rating: 4.7

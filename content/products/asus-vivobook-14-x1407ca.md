@@ -3,7 +3,7 @@ id: "GADGET-0053"
 status: "published"
 title: "ASUS Vivobook 14 X1407CA-U5165BU（14型 / Core Ultra 5 225H / メモリ16GB / SSD512GB）"
 manufacturer: "ASUS"
-release_date: null
+release_date: "2025-02"
 category: "laptop"
 price: 149800
 rating: 4.67

@@ -3,7 +3,7 @@ id: "GADGET-0047"
 status: "published"
 title: "サンワダイレクト 401-MAEWBS522（FREEROシリーズ ワイヤレスマウス / 小型エルゴノミクス / 静音）"
 manufacturer: "サンワダイレクト"
-release_date: null
+release_date: "2024-10"
 category: "mouse"
 price: 2780
 rating: 4.59

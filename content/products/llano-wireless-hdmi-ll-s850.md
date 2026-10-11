@@ -3,7 +3,7 @@ id: "GADGET-0058"
 status: "published"
 title: "llano ワイヤレスHDMI 無線送受信機セット（最大50m伝送 / 1080P / 超低遅延 / Type-C充電対応）"
 manufacturer: "llano"
-release_date: null
+release_date: "2026-02"
 category: "accessory"
 price: 9999
 tags: ["ワイヤレスHDMI", "ミラーリング", "VGP2026受賞", "設定不要"]

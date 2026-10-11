@@ -3,7 +3,7 @@ id: "GADGET-0069"
 status: "published"
 title: "サンワダイレクト 外付けSSD 600-IPCFAN（冷却ファン内蔵 / 液晶画面付き / USB-C / USB3.2Gen2）"
 manufacturer: "サンワダイレクト"
-release_date: null
+release_date: "2025-08"
 category: "accessory"
 price: 39800
 rating: 4.40

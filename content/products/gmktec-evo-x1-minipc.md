@@ -3,7 +3,7 @@ id: "GADGET-0034"
 status: "published"
 title: "GMKtec EVO-X1（ミニPC / AMD Ryzen AI 9 HX-370 / Radeon 890M / メモリ32GB / SSD1TB）"
 manufacturer: "GMKtec"
-release_date: null
+release_date: "2024-11"
 category: "desktop"
 price: 183998
 rating: 4.66

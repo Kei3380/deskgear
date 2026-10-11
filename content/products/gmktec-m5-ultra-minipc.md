@@ -3,7 +3,7 @@ id: "GADGET-0066"
 status: "published"
 title: "GMKtec M5 Ultra（ミニPC / AMD Ryzen 7 7730U / メモリ16GB / SSD512GB / 静音省スペース）"
 manufacturer: "GMKtec"
-release_date: null
+release_date: "2025-09"
 category: "desktop"
 price: 86248
 rating: 4.60

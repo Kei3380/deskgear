@@ -3,7 +3,7 @@ id: "GADGET-0045"
 status: "published"
 title: "dynabook GR/ZZ（13.3型ワイド WUXGA / Core Ultra 7 155H / メモリ32GB / SSD1TB / Officeなし）"
 manufacturer: "Dynabook"
-release_date: null
+release_date: "2025-10"
 category: "laptop"
 price: 249700
 rating: 4.5

@@ -3,7 +3,7 @@ id: "GADGET-0025"
 status: "published"
 title: "ロジクール ワイヤレスマウス M240GRda（Silent Bluetooth / 静音 / 左右対称）"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2023-06"
 category: "mouse"
 price: 1780
 rating: 4.50

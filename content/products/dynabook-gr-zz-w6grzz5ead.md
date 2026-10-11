@@ -3,7 +3,7 @@ id: "GADGET-0035"
 status: "published"
 title: "dynabook GR/ZZ（13.3型ワイド WUXGA / Core Ultra 5 125U / メモリ16GB / SSD512GB / Office付き）"
 manufacturer: "Dynabook"
-release_date: null
+release_date: "2025-10"
 category: "laptop"
 price: 192500
 rating: 4.50

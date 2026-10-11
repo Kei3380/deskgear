@@ -3,7 +3,7 @@ id: "GADGET-0074"
 status: "published"
 title: "EMEET NOVA 4K Webカメラ（UHD / PDAFオートフォーカス / デュアルノイズキャンセリングマイク）"
 manufacturer: "EMEET"
-release_date: null
+release_date: "2024-06"
 category: "webcam"
 price: 3999
 rating: 4.57

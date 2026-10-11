@@ -3,7 +3,7 @@ id: "GADGET-0017"
 status: "published"
 title: "Lenovo IdeaPad Slim 5a Gen 11（14インチ WUXGA OLED / AMD Ryzen AI7 / 16GB / 512GB）"
 manufacturer: "Lenovo"
-release_date: null
+release_date: "2026-03"
 category: "laptop"
 price: 149800
 rating: 4.75

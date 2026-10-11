@@ -3,7 +3,7 @@ id: "GADGET-0060"
 status: "published"
 title: "Anker HDMI Switch（2-in-1 Out / 4K HDMI / 双方向セレクター / 4K HDR対応）"
 manufacturer: "Anker"
-release_date: null
+release_date: "2023-12"
 category: "accessory"
 price: 1690
 tags: ["HDMI切替器", "4K HDR", "双方向", "コンパクト"]

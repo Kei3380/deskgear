@@ -3,7 +3,7 @@ id: "GADGET-0031"
 status: "published"
 title: "GMKtec K8plus（ミニPC / AMD Ryzen7 8845HS / Radeon 780M / USB4 40Gbps）"
 manufacturer: "GMKtec"
-release_date: null
+release_date: "2025-05"
 category: "desktop"
 price: 159998
 rating: 4.67

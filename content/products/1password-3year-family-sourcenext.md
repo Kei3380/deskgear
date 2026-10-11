@@ -3,7 +3,7 @@ id: "GADGET-0059"
 status: "published"
 title: "1Password 3年版 ファミリー（5人用 / ダウンロード版 / ソースネクスト）"
 manufacturer: "ソースネクスト"
-release_date: null
+release_date: "2019-08"
 category: "security"
 price: 20800
 tags: ["パスワード管理", "3年版", "ファミリー5人用", "ダウンロード版"]

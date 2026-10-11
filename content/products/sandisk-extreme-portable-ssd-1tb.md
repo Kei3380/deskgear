@@ -3,7 +3,7 @@ id: "GADGET-0094"
 status: "published"
 title: "サンディスク Extreme ポータブルSSD 1TB 高速1050MB/s 防滴防塵"
 manufacturer: "サンディスク"
-release_date: null
+release_date: "2020-12"
 category: "accessory"
 price: 31380
 rating: 4.57

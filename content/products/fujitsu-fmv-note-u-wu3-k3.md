@@ -3,7 +3,7 @@ id: "GADGET-0039"
 status: "published"
 title: "富士通 FMV Note U WU3-K3（14.0型 / Core i5 / メモリ16GB / SSD256GB / 大容量バッテリ）"
 manufacturer: "富士通"
-release_date: null
+release_date: "2025-10"
 category: "laptop"
 price: 183100
 rating: 5.00

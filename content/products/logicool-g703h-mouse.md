@@ -3,7 +3,7 @@ id: "GADGET-0061"
 status: "published"
 title: "Logicool G ゲーミングマウス G703h（HEROセンサー / LIGHTSPEED / LIGHTSYNC RGB / POWERPLAY対応）"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2019-06"
 category: "mouse"
 price: 9900
 rating: 4.60

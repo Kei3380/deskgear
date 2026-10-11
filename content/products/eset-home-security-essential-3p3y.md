@@ -3,7 +3,7 @@ id: "GADGET-0051"
 status: "published"
 title: "ESET HOME セキュリティ エッセンシャル（ライセンスカード版 / 3台3年）"
 manufacturer: "キヤノンITソリューションズ"
-release_date: null
+release_date: "2025-11"
 category: "security"
 price: 10290
 tags: ["ウイルス対策", "3台3年版", "軽量動作", "ライセンスカード版"]

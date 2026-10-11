@@ -3,7 +3,7 @@ id: "GADGET-0102"
 status: "published"
 title: "Lenovo IdeaPad Slim 3 Gen 10 14型 (Ryzen 5/16GB/512GB)"
 manufacturer: "Lenovo"
-release_date: null
+release_date: "2025-02"
 category: "laptop"
 price: 149980
 rating: 4.72

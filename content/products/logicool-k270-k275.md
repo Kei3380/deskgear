@@ -3,7 +3,7 @@ id: "GADGET-0096"
 status: "published"
 title: "ロジクール K270/K275 ワイヤレスキーボード 耐水＆長寿命の定番フルサイズモデル"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2015-09"
 category: "keyboard"
 price: 2800
 rating: 4.42

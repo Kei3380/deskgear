@@ -3,7 +3,7 @@ id: "GADGET-0021"
 status: "published"
 title: "NEC LAVIE Direct N15 Slim（15.3インチ / AMD Ryzen7-7735HS / メモリ24GB / 国内生産）"
 manufacturer: "NEC"
-release_date: null
+release_date: "2025-05"
 category: "laptop"
 price: 165700
 rating: 4.50

@@ -3,7 +3,7 @@ id: "GADGET-0041"
 status: "published"
 title: "ロジクール ウェブカメラ C920n（フルHD 1080P / 自動フォーカス / ステレオマイク内蔵）"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2019-04"
 category: "webcam"
 price: 5300
 rating: 4.40

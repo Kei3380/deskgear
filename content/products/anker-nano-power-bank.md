@@ -3,7 +3,7 @@ id: "GADGET-0104"
 status: "published"
 title: "Anker Nano Power Bank ケーブル不要の端子一体型・超小型モバイルバッテリー (5000mAh)"
 manufacturer: "Anker"
-release_date: null
+release_date: "2023-08"
 category: "accessory"
 price: 2890
 rating: 4.46

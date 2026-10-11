@@ -3,7 +3,7 @@ id: "GADGET-0049"
 status: "published"
 title: "ロジクール ヘッドセット H111ra（ステレオ / 3.5mm接続 / ノイズキャンセリングマイク）"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2018-02"
 category: "headset"
 price: 1530
 rating: 4.36

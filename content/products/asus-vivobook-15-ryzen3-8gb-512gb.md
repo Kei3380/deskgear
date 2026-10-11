@@ -3,7 +3,7 @@ id: "GADGET-0092"
 status: "published"
 title: "ASUS Vivobook 15.6型 コスパ抜群の薄型軽量ノートPC（Ryzen3/8GB/SSD 512GB）"
 manufacturer: "ASUS"
-release_date: null
+release_date: "2023-04"
 category: "laptop"
 price: 89800
 rating: 4.41

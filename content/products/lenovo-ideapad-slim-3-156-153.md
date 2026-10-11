@@ -3,7 +3,7 @@ id: "GADGET-0088"
 status: "published"
 title: "新品 Lenovo ノートパソコン IdeaPad Slim 3 15.6型 15.3型 "
 manufacturer: "Lenovo"
-release_date: null
+release_date: "2023-04"
 category: "laptop"
 price: 129800
 rating: 4.64

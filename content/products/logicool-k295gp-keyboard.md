@@ -3,7 +3,7 @@ id: "GADGET-0019"
 status: "published"
 title: "ロジクール ワイヤレスキーボード K295GP（静音 / 耐水 / Unifying対応）"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2020-10"
 category: "keyboard"
 price: 3201
 rating: 4.51

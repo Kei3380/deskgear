@@ -3,7 +3,7 @@ id: "GADGET-0040"
 status: "published"
 title: "Logicool G PRO X SUPERLIGHT 2 DEX ワイヤレスゲーミングマウス（8000Hzポーリングレート / 60g軽量）"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2024-10"
 category: "mouse"
 price: 21100
 rating: 4.5

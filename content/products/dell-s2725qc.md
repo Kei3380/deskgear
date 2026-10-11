@@ -3,7 +3,7 @@ id: "GADGET-0098"
 status: "published"
 title: "Dell S2725QC 27インチ 4K IPSモニター 120Hz駆動"
 manufacturer: "Dell"
-release_date: null
+release_date: "2025-03"
 category: "monitor"
 price: 49800
 rating: 4.2

@@ -3,7 +3,7 @@ id: "GADGET-0022"
 status: "published"
 title: "【ふるさと納税返礼品】東プレ REALFORCE R3S 有線 静電容量無接点方式キーボード（R3SA13）"
 manufacturer: "東プレ"
-release_date: null
+release_date: "2022-06"
 category: "keyboard"
 price: 98000
 rating: 4.6

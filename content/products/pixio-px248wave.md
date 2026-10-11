@@ -3,7 +3,7 @@ id: "GADGET-0095"
 status: "published"
 title: "Pixio PX248 Wave | 200Hz高速駆動と美しい発色を両立した23.8インチ高コスパモニター"
 manufacturer: "Pixio"
-release_date: null
+release_date: "2023-11"
 category: "monitor"
 price: 26980
 rating: 4.68

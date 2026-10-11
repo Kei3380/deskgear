@@ -3,7 +3,7 @@ id: "GADGET-0052"
 status: "published"
 title: "ノートン 360 スタンダード（ダウンロード版 / 2台1年版）"
 manufacturer: "Norton"
-release_date: null
+release_date: "2019-09"
 category: "security"
 price: 5480
 tags: ["ウイルス対策", "2台1年版", "ダウンロード版", "マルチデバイス対応"]

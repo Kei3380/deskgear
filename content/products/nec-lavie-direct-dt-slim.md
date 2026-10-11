@@ -3,7 +3,7 @@ id: "GADGET-0028"
 status: "published"
 title: "NEC LAVIE Direct DT SLIM（小型デスクトップPC / Core i5-14500T / 国内生産）"
 manufacturer: "NEC"
-release_date: null
+release_date: "2025-01"
 category: "desktop"
 price: 166900
 rating: 4.50

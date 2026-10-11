@@ -3,7 +3,7 @@ id: "GADGET-0055"
 status: "published"
 title: "NEC LAVIE Direct A23（23.8インチ オールインワン一体型デスクトップ / Core i5-1335U / メモリ16GB / 国内生産）"
 manufacturer: "NEC"
-release_date: null
+release_date: "2026-02"
 category: "desktop"
 price: 319000
 rating: 4.50

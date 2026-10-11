@@ -3,7 +3,7 @@ id: "GADGET-0024"
 status: "published"
 title: "mouse K7-I7G50BK-A（17.3インチ / Core i7-13620H / メモリ32GB / SSD500GB / RTX 3050）"
 manufacturer: "マウスコンピューター"
-release_date: null
+release_date: "2026-06"
 category: "laptop"
 price: 299800
 rating: 4.50

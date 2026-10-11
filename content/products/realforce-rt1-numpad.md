@@ -3,7 +3,7 @@ id: "GADGET-0100"
 status: "published"
 title: "REALFORCE RT1 テンキーボード 静電容量無接点方式のプログラマブルテンキー"
 manufacturer: "REALFORCE"
-release_date: null
+release_date: "2024-12"
 category: "keyboard"
 price: 14080
 rating: 4.52

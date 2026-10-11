@@ -3,7 +3,7 @@ id: "GADGET-0050"
 status: "published"
 title: "Logicool G ゲーミングマウス G304（HEROセンサー / LIGHTSPEEDワイヤレス / 99g軽量）"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2018-08"
 category: "mouse"
 price: 5200
 rating: 4.49

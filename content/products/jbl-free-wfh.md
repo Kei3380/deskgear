@@ -3,7 +3,7 @@ id: "GADGET-0087"
 status: "published"
 title: "JBL Free WFH"
 manufacturer: "JBL"
-release_date: null
+release_date: "2021-10"
 category: "accessory"
 price: 3980
 rating: 4.8

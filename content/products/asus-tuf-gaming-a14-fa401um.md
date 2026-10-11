@@ -3,7 +3,7 @@ id: "GADGET-0044"
 status: "published"
 title: "ASUS TUF Gaming A14 FA401UM-R7R5060（14型 165Hz / GeForce RTX 5060 / AMD Ryzen 7 260 / メモリ32GB）"
 manufacturer: "ASUS"
-release_date: null
+release_date: "2026-02"
 category: "laptop"
 price: 369800
 rating: 4.4

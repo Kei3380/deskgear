@@ -3,7 +3,7 @@ id: "GADGET-0046"
 status: "published"
 title: "サンワダイレクト 400-MA097（ワイヤレスマウス / 5ボタン / DPI切替 / 左右対称）"
 manufacturer: "サンワダイレクト"
-release_date: null
+release_date: "2019-08"
 category: "mouse"
 price: 1580
 rating: 4.40

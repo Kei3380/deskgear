@@ -3,7 +3,7 @@ id: "GADGET-0054"
 status: "published"
 title: "ロジクール ワイヤレスマウス キーボードセット MK295GP（静音 / 耐水 / USB接続）"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2020-10"
 category: "keyboard"
 price: 3900
 rating: 4.52

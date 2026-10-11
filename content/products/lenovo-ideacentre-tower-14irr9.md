@@ -3,7 +3,7 @@ id: "GADGET-0042"
 status: "published"
 title: "Lenovo IdeaCentre Tower 14IRR9（デスクトップPC / Core i5 / メモリ16GB / SSD512GB / キーボード・マウス付き）"
 manufacturer: "Lenovo"
-release_date: null
+release_date: "2024-07"
 category: "desktop"
 price: 154800
 rating: 4.80

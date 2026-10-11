@@ -3,7 +3,7 @@ id: "GADGET-0065"
 status: "published"
 title: "ロジクール スリムコンボ MK470（静音 / ワイヤレスマウス・キーボードセット / 超薄型）"
 manufacturer: "ロジクール"
-release_date: null
+release_date: "2023-01"
 category: "keyboard"
 price: 7900
 rating: 4.61

@@ -3,7 +3,7 @@ id: "GADGET-0036"
 status: "published"
 title: "Pixio PX248PP（23.8インチ FHD ゲーミングモニター / 180Hz / IPS / 1ms）"
 manufacturer: "Pixio"
-release_date: null
+release_date: "2024-07"
 category: "monitor"
 price: 24980
 rating: 4.62

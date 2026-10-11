@@ -3,7 +3,7 @@ id: "GADGET-0020"
 status: "published"
 title: "富士通 FMV Note E WE1-K3（15.6型 / Core i7 / メモリ16GB / SSD512GB / Office付き）"
 manufacturer: "富士通"
-release_date: null
+release_date: "2025-10"
 category: "laptop"
 price: 137900
 rating: 4.60

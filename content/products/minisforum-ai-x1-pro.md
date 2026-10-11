@@ -3,7 +3,7 @@ id: "GADGET-0030"
 status: "published"
 title: "MINISFORUM AI X1 Pro（ミニPC / AMD Ryzen AI 9 HX 370 / Radeon 890M / Copilotボタン付き）"
 manufacturer: "MINISFORUM"
-release_date: null
+release_date: "2025-04"
 category: "desktop"
 price: 149999
 rating: 4.50

@@ -3,7 +3,7 @@ id: "GADGET-0085"
 status: "published"
 title: "Anker PowerLine III Flow USB-C & USB-C ケーブル"
 manufacturer: "Anker"
-release_date: null
+release_date: "2021-07"
 category: "accessory"
 price: 1790
 rating: 4.72

@@ -3,7 +3,7 @@ id: "GADGET-0071"
 status: "published"
 title: "EMEET C960 Webカメラ（フルHD 1080P / 200万画素 / 90°広角 / 自動光補正）"
 manufacturer: "EMEET"
-release_date: null
+release_date: "2020-09"
 category: "webcam"
 price: 2399
 rating: 4.67

@@ -3,7 +3,7 @@ id: "GADGET-0080"
 status: "published"
 title: "REALFORCE R3S キーボード 日本語配列 フルキーボード テンキーレス 45g "
 manufacturer: "REALFORCE"
-release_date: null
+release_date: "2022-06"
 category: "keyboard"
 price: 23540
 rating: 4.74

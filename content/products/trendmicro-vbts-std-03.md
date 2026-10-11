@@ -3,7 +3,7 @@ id: "GADGET-0048"
 status: "published"
 title: "ウイルスバスター トータルセキュリティ スタンダード（ダウンロード版 / 3年6台版）"
 manufacturer: "トレンドマイクロ"
-release_date: null
+release_date: "2023-10"
 category: "security"
 price: 18920
 tags: ["ウイルス対策", "3年6台版", "ダウンロード版", "マルチデバイス対応"]

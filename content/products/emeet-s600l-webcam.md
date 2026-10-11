@@ -3,7 +3,7 @@ id: "GADGET-0075"
 status: "published"
 title: "EMEET S600L 4K Webカメラ（リングライト一体型 / PDAFオートフォーカス / デュアルマイク付き）"
 manufacturer: "EMEET"
-release_date: null
+release_date: "2026-02"
 category: "webcam"
 price: 11980
 rating: 4.66

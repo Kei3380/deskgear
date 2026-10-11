@@ -3,7 +3,7 @@ id: "GADGET-0043"
 status: "published"
 title: "Xiaomi Monitor A27Qi（27インチ QHD 2Kモニター / 120Hz / sRGB100%）"
 manufacturer: "Xiaomi"
-release_date: null
+release_date: "2025-02"
 category: "monitor"
 price: 20580
 rating: 4.56

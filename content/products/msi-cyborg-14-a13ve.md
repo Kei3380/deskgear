@@ -3,7 +3,7 @@ id: "GADGET-0016"
 status: "published"
 title: "MSI Cyborg 14 A13VE-3302JP ゲーミングノートPC（RTX 4050 / Core i7-13620H / 14インチ144Hz）"
 manufacturer: "MSI"
-release_date: null
+release_date: "2026-02"
 category: "laptop"
 price: 200600
 rating: 4.60

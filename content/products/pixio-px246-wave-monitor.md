@@ -3,7 +3,7 @@ id: "GADGET-0032"
 status: "published"
 title: "Pixio PX246 Wave（23.8インチ FHD ゲーミングモニター / 120Hz / IPS）"
 manufacturer: "Pixio"
-release_date: null
+release_date: "2025-01"
 category: "monitor"
 price: 16800
 rating: 4.67

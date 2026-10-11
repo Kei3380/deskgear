@@ -3,7 +3,7 @@ id: "GADGET-0026"
 status: "published"
 title: "Apple MacBook Air M4 MC6T4J/A（13.6インチ / M4チップ 10コア / メモリ16GB / SSD256GB / スカイブルー）"
 manufacturer: "Apple"
-release_date: null
+release_date: "2025-03"
 category: "laptop"
 price: 167979
 rating: 4.4

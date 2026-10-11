@@ -3,7 +3,7 @@ id: "GADGET-0033"
 status: "published"
 title: "アイリスオーヤマ DT-JF（21.5インチ フルHD モニター / 100Hz / VA / ノングレア）"
 manufacturer: "アイリスオーヤマ"
-release_date: null
+release_date: "2024-09"
 category: "monitor"
 price: 10800
 rating: 4.50

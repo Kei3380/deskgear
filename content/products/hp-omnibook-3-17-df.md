@@ -3,7 +3,7 @@ id: "GADGET-0023"
 status: "published"
 title: "HP OmniBook 3 17-df（17.3インチ IPS / Core Ultra 7 / メモリ24GB / SSD1TB / テンキー付き）"
 manufacturer: "HP"
-release_date: null
+release_date: "2026-05"
 category: "laptop"
 price: 254700
 rating: 4.60

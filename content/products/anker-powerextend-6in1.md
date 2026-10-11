@@ -3,7 +3,7 @@ id: "GADGET-0068"
 status: "published"
 title: "Anker PowerExtend（6-in-1 USBタップ電源タップ / USB PD対応 / コンパクトサイズ）"
 manufacturer: "Anker"
-release_date: null
+release_date: "2024-02"
 category: "accessory"
 price: 2490
 rating: 4.89

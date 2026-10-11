@@ -3,7 +3,7 @@ id: "GADGET-0037"
 status: "published"
 title: "Lenovo IdeaPad Slim 3 Gen 10（15.3インチ WUXGA IPS / AMD Ryzen 5 / メモリ16GB / SSD512GB）"
 manufacturer: "Lenovo"
-release_date: null
+release_date: "2025-11"
 category: "laptop"
 price: 119800
 rating: 4.49

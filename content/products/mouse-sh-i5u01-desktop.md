@@ -3,7 +3,7 @@ id: "GADGET-0029"
 status: "published"
 title: "mouse SH-I5U01（デスクトップPC / Core i5-14400 / メモリ16GB / SSD500GB / キーボード・マウス付属）"
 manufacturer: "マウスコンピューター"
-release_date: null
+release_date: "2025-12"
 category: "desktop"
 price: 199800
 rating: 4.67
