@@ -19,7 +19,7 @@ cons:
 affiliate_links:
   amazon: ""
   rakuten: "https://hb.afl.rakuten.co.jp/ichiba/5725ba6d.2f2c8b3d.5725ba6e.84f106eb/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fsanwadirect%2F400-toy039w%2F&link_type=picttext&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJwaWN0dGV4dCIsInNpemUiOiIyNDB4MjQwIiwibmFtIjoxLCJuYW1wIjoicmlnaHQiLCJjb20iOjEsImNvbXAiOiJkb3duIiwicHJpY2UiOjEsImJvciI6MSwiY29sIjoxLCJiYnRuIjoxLCJwcm9kIjowLCJhbXAiOmZhbHNlfQ%3D%3D"
-image: "https://thumbnail.image.rakuten.co.jp/@0_mall/sanwadirect/cabinet/event/904_ss/main/400-toy039w.jpg?_ex=240x240"
+image: "https://thumbnail.image.rakuten.co.jp/@0_mall/sanwadirect/cabinet/4/400-toy039w.jpg?_ex=240x240"
 ---
 
 サンワダイレクトのUSB扇風機「400-TOY039W」。USB充電式のためPCやモバイルバッテリーから手軽に給電でき、デスク作業中の暑さ対策に活躍する。静音設計を採用しているため、オフィスや在宅ワーク中も動作音を気にせず使える。マグネット・クリップ・卓上置きの3WAYに対応しており、デスク・棚・スチール面など設置場所を選ばず柔軟に使えるのが特徴。コンパクトで軽量なため、デスク周りだけでなく外出先への持ち運びにも便利。楽天ランキング1位を獲得した実績を持つ人気モデル。

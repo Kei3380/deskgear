@@ -741,4 +741,23 @@ pnpm add gray-matter remark remark-html
 ### 動作確認
 - `pnpm build` エラーなし（全93商品がSSGで事前生成されることを確認）
 
+---
+
+## 25. サンワダイレクト USB扇風機（400-TOY039W）の商品画像修正
+
+### 概要
+サンワダイレクト マグネット付きUSB扇風機（`400-TOY039W`）の商品画像が楽天の過去セールイベント用一時URL（404）になっていたため、楽天市場の現行商品ページから恒久画像URLを取得して更新した。
+
+### 追加した依存パッケージ
+なし。
+
+### 変更内容
+- `content/products/sanwadirect-400-toy039w-fan.md`
+  - `image` URL を `.../cabinet/event/904_ss/main/400-toy039w.jpg` から現行恒久URL `https://thumbnail.image.rakuten.co.jp/@0_mall/sanwadirect/cabinet/4/400-toy039w.jpg?_ex=240x240` に更新。
+
+### 動作確認
+- 画像URLがHTTP 200で取得できることを確認
+- `pnpm build` エラーなし
+
+
 
