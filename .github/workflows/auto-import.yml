@@ -2,8 +2,8 @@ name: Auto Import Products via Gemini AI & Rakuten API
 
 on:
   schedule:
-    # 毎日 午前9:00 (JST) / 0:00 (UTC) に自動起動
-    - cron: '0 0 * * *'
+    # 毎日 午前4:00 (JST) / 19:00 (UTC) に自動起動
+    - cron: '0 19 * * *'
   workflow_dispatch: # GitHubの管理画面から手動でボタンを押して即時起動可能
 
 jobs:
