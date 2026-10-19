@@ -16,9 +16,27 @@ const notoSansJp = Noto_Sans_JP({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "DESKGEAR｜パソコン選びから始まる、あなたのデスク物語",
+  title: {
+    default: "DESKGEAR｜快適なデスクワークを叶えるパソコン＆ガジェット選び",
+    template: "%s | DESKGEAR",
+  },
   description:
-    "パソコン選びに迷っている方へ。在宅ワーク・学習・クリエイティブなど、あなたの使い方や暮らしに合わせて、ノートパソコンと一緒に揃えたい周辺機器を組み合わせて提案します。",
+    "パソコン選びから始まる、理想のワークスペースづくり。暮らしや作業スタイルに寄り添うノートPCと、心地よい周辺機器（モニター・マウス・充電器など）のトータルコーディネートをご提案します。",
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+    url: SITE_URL,
+    siteName: "DESKGEAR",
+    title: "DESKGEAR｜快適なデスクワークを叶えるパソコン＆ガジェット選び",
+    description:
+      "パソコン選びから始まる、理想のワークスペースづくり。暮らしや作業スタイルに寄り添うノートPCと、心地よい周辺機器（モニター・マウス・充電器など）のトータルコーディネートをご提案します。",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DESKGEAR｜快適なデスクワークを叶えるパソコン＆ガジェット選び",
+    description:
+      "パソコン選びから始まる、理想のワークスペースづくり。暮らしや作業スタイルに寄り添うノートPCと、心地よい周辺機器（モニター・マウス・充電器など）のトータルコーディネートをご提案します。",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

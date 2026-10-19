@@ -19,7 +19,7 @@ export function SiteFooter() {
             </span>
           </Link>
           <p className="text-xs leading-relaxed">
-            デスク周辺機器をスペックで絞り込み、最短で比較できるガジェットレビューサイト。
+            パソコン選びから始まる、理想のワークスペースづくり。心地よいデスク環境とガジェットを提案するセレクトメディア。
           </p>
         </div>
 
@@ -55,8 +55,8 @@ export function SiteFooter() {
         </nav>
       </div>
 
-      {/* アフィリエイト広告開示・コピーライト */}
-      <div className="border-t border-border/40">
+      {/* アフィリエイト広告開示・コピーライト（Google検索結果スニペットへの誤抜粋を防ぐため data-nosnippet を付与） */}
+      <div data-nosnippet className="border-t border-border/40">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-1.5 px-4 py-4 text-center text-xs sm:flex-row sm:justify-between sm:text-left">
           <p>本サイトはアフィリエイト広告（楽天アフィリエイト・Amazonアソシエイト）を利用しています</p>
           <p className="flex items-center gap-3">

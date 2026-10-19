@@ -36,12 +36,12 @@ export function HomeIntro({ productCount }: { productCount: number }) {
 
       <div className="relative flex flex-col gap-2 text-white [text-shadow:0_1px_12px_rgb(0_0_0/0.45)]">
         <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-5xl sm:leading-tight">
-          デスク周辺機器を、
+          快適なデスクワークを叶える、
           <br className="sm:hidden" />
-          スペックで最短比較。
+          パソコン＆ガジェット選び。
         </h1>
         <p className="max-w-2xl text-sm text-white/90 sm:text-base">
-          パソコン・モニター・キーボード・マウスなど {productCount} 商品を編集部がレビュー。条件で絞り込んで、自分に合う1台がすぐ見つかります。
+          パソコン選びから始まる、理想のワークスペースづくり。ノートPCと心地よい周辺機器（モニター・キーボード・マウスなど）{productCount}商品を厳選。あなたの暮らしと作業スタイルに寄り添うトータルコーディネートをご提案します。
         </p>
         <p className="flex items-center gap-1.5 text-xs text-white/80">
           <Clock className="size-3.5" aria-hidden />

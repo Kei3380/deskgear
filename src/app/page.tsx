@@ -6,11 +6,13 @@ import { SearchPanel } from "@/components/home/search-panel";
 import { BeginnerSet } from "@/components/home/beginner-set";
 import { HomeIntro } from "@/components/home/home-intro";
 import { getAllProducts, getManufacturers, getManufacturersByCategory } from "@/lib/products";
+import { buildWebSiteJsonLd, jsonLdToScriptHtml } from "@/lib/json-ld";
 
 // 背景②の上に載せるパネル（模様の上でも見出し・カードが読めるよう不透明の地色にする）
 const PANEL_CLASS = "rounded-2xl bg-background p-3 shadow-xl sm:p-6";
 
 export default function Home() {
+  const jsonLd = buildWebSiteJsonLd();
   // getAllProducts() を1回呼び出して各コンポーネントへ渡す（ファイルI/O削減）
   const allProducts = getAllProducts();
   const rankedProducts = [...allProducts]
@@ -29,6 +31,10 @@ export default function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdToScriptHtml(jsonLd) }}
+      />
       {/* 背景①: デスク写真を固定し、h1 と初心者セットのカードがその上をスクロールする */}
       <BackdropSection
         backdrop={<DeskPhotoBackdrop />}

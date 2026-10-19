@@ -50,6 +50,22 @@ export function buildProductJsonLd(product: Product) {
 }
 
 /**
+ * トップページ用の構造化データ（WebSiteスキーマ）を生成する。
+ * Google等の検索エンジンがサイト名（DESKGEAR）およびサイトの概要を正確に理解できるようにする。
+ */
+export function buildWebSiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    alternateName: ["デスクギア", "DESK GEAR"],
+    url: SITE_URL,
+    description:
+      "パソコン選びから始まる、理想のワークスペースづくり。暮らしや作業スタイルに寄り添うノートPCと、心地よい周辺機器のトータルコーディネートをご提案します。",
+  };
+}
+
+/**
  * `<script type="application/ld+json">` へ安全に埋め込むためのJSON文字列化。
  * `</script>` によるタグの早期終了を防ぐため `<` をエスケープする。
  */
