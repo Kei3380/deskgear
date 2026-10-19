@@ -26,7 +26,7 @@ export async function generateMetadata(
   if (!result) return {};
 
   return {
-    title: `${result.product.title} レビュー | DESKGEAR`,
+    title: `${result.product.title} レビュー`,
     description: `${result.product.title}のスペック・メリット・デメリットを解説。`,
   };
 }

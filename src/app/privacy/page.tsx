@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "プライバシーポリシー | DESKGEAR",
+  title: "プライバシーポリシー",
   description:
-    "DEASKGEARのプライバシーポリシーです。当サイトにおける個人情報の取り扱いおよびアフィリエイト広告の利用について説明しています。",
+    "DESKGEARのプライバシーポリシーです。当サイトにおける個人情報の取り扱いおよびアフィリエイト広告の利用について説明しています。",
 };
 
 export default function PrivacyPage() {

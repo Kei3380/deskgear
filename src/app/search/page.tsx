@@ -85,7 +85,7 @@ export async function generateMetadata(props: PageProps<"/search">): Promise<Met
   const title = buildSearchTitle(conditions);
 
   return {
-    title: `${title} | DESKGEAR`,
+    title,
     // 相対パスは layout.tsx の metadataBase（SITE_URL）で絶対URLに解決される
     alternates: { canonical: buildCanonicalPath(conditions) },
     description: `${title === "商品検索" ? "デスク周辺機器" : title.replace(/一覧$/, "")}を価格・評価・発売日で比較。編集部レビュー付きで、自分に合う1台がすぐ見つかります。`,
