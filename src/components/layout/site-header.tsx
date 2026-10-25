@@ -16,6 +16,12 @@ export function SiteHeader() {
         </Link>
         <nav aria-label="グローバルナビゲーション" className="flex items-center gap-1 text-sm sm:gap-2">
           <Link
+            href="/#category-heading"
+            className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <span className="whitespace-nowrap">選び方ガイド</span>
+          </Link>
+          <Link
             href="/#beginner-set"
             className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >

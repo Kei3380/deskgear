@@ -23,17 +23,20 @@ export function SiteFooter() {
           </p>
         </div>
 
-        {/* カテゴリ（内部リンク） */}
-        <nav aria-label="カテゴリ" className="flex flex-col gap-2">
-          <p className="text-xs font-semibold text-foreground">カテゴリ</p>
+        {/* カテゴリ別ガイド（内部リンク） */}
+        <nav aria-label="カテゴリ別選び方ガイド" className="flex flex-col gap-2">
+          <p className="text-xs font-semibold text-foreground">カテゴリ別選び方ガイド</p>
           <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs sm:grid-cols-3">
-            {CATEGORIES.map((category) => (
-              <li key={category.slug}>
-                <Link href={`/search?category=${category.slug}`} className={FOOTER_LINK_CLASS}>
-                  {category.label}
-                </Link>
-              </li>
-            ))}
+            {CATEGORIES.map((category) => {
+              const href = category.slug === "desktop" ? "/categories/laptop" : `/categories/${category.slug}`;
+              return (
+                <li key={category.slug}>
+                  <Link href={href} className={FOOTER_LINK_CLASS}>
+                    {category.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 

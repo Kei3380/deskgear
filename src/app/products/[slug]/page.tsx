@@ -1,10 +1,12 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ListChecks, MessageSquareText, Scale } from "lucide-react";
+import { ArrowRight, Compass, ListChecks, MessageSquareText, Scale, Sparkles } from "lucide-react";
 
 import { Breadcrumb } from "@/components/common/breadcrumb";
 import { SectionHeading } from "@/components/common/section-heading";
 import { AffiliateCta } from "@/components/product/affiliate-cta";
+import { ProductCard } from "@/components/product/product-card";
 import { ProductHero } from "@/components/product/product-hero";
 import { ProsConsTable } from "@/components/product/pros-cons-table";
 import { SpecTable } from "@/components/product/spec-table";
@@ -25,9 +27,14 @@ export async function generateMetadata(
   const result = await getProductBySlug(slug);
   if (!result) return {};
 
+  const { product } = result;
+  const shortTitle = shortenTitle(product.title);
+  const firstPro = product.pros?.[0] ? `「${product.pros[0]}」` : "";
+  const firstCon = product.cons?.[0] ? `注意点「${product.cons[0]}」` : "デメリット";
+
   return {
-    title: `${result.product.title} レビュー`,
-    description: `${result.product.title}のスペック・メリット・デメリットを解説。`,
+    title: `【デメリット・評判は？】${shortTitle}のメリットと在宅ワークでの使い心地をレビュー`,
+    description: `${firstPro}が特徴の${shortTitle}。実際の使い心地や購入前に知るべき${firstCon}、スペック詳細を分かりやすく解説。`,
   };
 }
 
@@ -42,6 +49,17 @@ export default async function ProductDetailPage(
   const categoryLabel = CATEGORIES.find((c) => c.slug === product.category)?.label;
   const productJsonLd = buildProductJsonLd(product);
 
+  // 同カテゴリの関連おすすめ商品（自商品を除く最大3件）
+  const allProducts = getAllProducts();
+  const relatedProducts = allProducts
+    .filter((p) => p.category === product.category && p.slug !== product.slug)
+    .sort((a, b) => {
+      if (a.rating === null) return b.rating === null ? 0 : 1;
+      if (b.rating === null) return -1;
+      return b.rating - a.rating;
+    })
+    .slice(0, 3);
+
   return (
     <article className="flex flex-col gap-10">
       <script
@@ -54,8 +72,8 @@ export default async function ProductDetailPage(
           items={[
             { label: "トップ", href: "/" },
             {
-              label: categoryLabel ?? "商品一覧",
-              href: categoryLabel ? `/search?category=${product.category}` : "/search",
+              label: categoryLabel ? `${categoryLabel}の選び方` : "商品一覧",
+              href: categoryLabel ? `/categories/${product.category}` : "/search",
             },
             { label: shortenTitle(product.title) },
           ]}
@@ -82,6 +100,7 @@ export default async function ProductDetailPage(
         />
       </section>
 
+      {/* 最新価格CTA */}
       <div className="flex flex-col gap-4 rounded-2xl bg-accent/60 p-6 sm:p-8">
         <p className="text-center text-sm font-medium text-accent-foreground">
           気になった方はこちらから最新価格をチェック
@@ -89,7 +108,44 @@ export default async function ProductDetailPage(
         <AffiliateCta links={product.affiliateLinks} />
       </div>
 
+      {/* カテゴリ選び方ハブへの戻り導線 */}
+      {categoryLabel && (
+        <div className="flex flex-col gap-2 rounded-2xl border border-primary/20 bg-primary/5 p-5 sm:p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-1">
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+              <Compass className="size-4" aria-hidden />
+              {categoryLabel}選びに迷ったら
+            </span>
+            <p className="text-sm font-bold text-foreground">
+              {categoryLabel}の失敗しない選び方・スペック基準ガイドを見る
+            </p>
+          </div>
+          <Link
+            href={`/categories/${product.category}`}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-xs transition-opacity hover:opacity-90"
+          >
+            選び方ガイドへ
+            <ArrowRight className="size-3.5" aria-hidden />
+          </Link>
+        </div>
+      )}
+
+      {/* 同カテゴリの関連おすすめ商品 */}
+      {relatedProducts.length > 0 && (
+        <section aria-labelledby="related-heading" className="flex flex-col gap-4">
+          <SectionHeading id="related-heading" icon={Sparkles}>
+            あわせて比較したい注目の{categoryLabel ?? "周辺機器"}
+          </SectionHeading>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {relatedProducts.map((relProduct) => (
+              <ProductCard key={relProduct.id} product={relProduct} />
+            ))}
+          </div>
+        </section>
+      )}
+
       <StickyCtaBar product={product} />
     </article>
   );
 }
+

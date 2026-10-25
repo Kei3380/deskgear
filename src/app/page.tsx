@@ -1,6 +1,7 @@
 import { BackdropSection } from "@/components/home/backdrop-section";
 import { CategoryGrid } from "@/components/home/category-grid";
 import { DeskPhotoBackdrop, DotPatternBackdrop } from "@/components/home/home-backdrops";
+import { FeaturedGuides } from "@/components/home/featured-guides";
 import { RankingList } from "@/components/home/ranking-list";
 import { SearchPanel } from "@/components/home/search-panel";
 import { BeginnerSet } from "@/components/home/beginner-set";
@@ -51,6 +52,9 @@ export default function Home() {
         className="bg-slate-900"
         contentClassName="flex flex-col gap-4 p-3 sm:gap-8 sm:p-8"
       >
+        <div className={PANEL_CLASS}>
+          <FeaturedGuides />
+        </div>
         <div className={PANEL_CLASS}>
           <CategoryGrid counts={categoryCounts} />
         </div>

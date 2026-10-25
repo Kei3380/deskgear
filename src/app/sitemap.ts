@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { CATEGORIES } from "@/lib/categories";
+import { CATEGORY_GUIDES } from "@/lib/category-guides";
 import { getAllProducts } from "@/lib/products";
 import { SITE_URL } from "@/lib/site";
 
@@ -29,14 +30,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  // カテゴリ別選び方ハブページ（/categories/[slug]）
+  // desktopはlaptop（パソコンの選び方）へ統合されるためCATEGORY_GUIDESのキーのみ登録
+  const categoryHubPages: MetadataRoute.Sitemap = Object.keys(CATEGORY_GUIDES).map((slug) => ({
+    url: `${SITE_URL}/categories/${slug}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
+  }));
+
   // カテゴリ絞り込みページ（/search?category=xxx）
-  // Google はクエリパラメータ付きURLもインデックスするが、
-  // サイトマップには canonical として登録しておく。
-  const categoryPages: MetadataRoute.Sitemap = CATEGORIES.map((category) => ({
+  const categorySearchPages: MetadataRoute.Sitemap = CATEGORIES.map((category) => ({
     url: `${SITE_URL}/search?category=${category.slug}`,
     lastModified: now,
     changeFrequency: "weekly" as const,
-    priority: 0.7,
+    priority: 0.6,
   }));
 
   // 商品詳細ページ
@@ -47,5 +55,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...categoryPages, ...productPages];
+  return [...staticPages, ...categoryHubPages, ...categorySearchPages, ...productPages];
 }
+

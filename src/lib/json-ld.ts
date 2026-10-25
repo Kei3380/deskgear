@@ -66,6 +66,70 @@ export function buildWebSiteJsonLd() {
 }
 
 /**
+ * カテゴリ別ハブページ（/categories/[slug]）用の構造化データ（CollectionPage + ItemList + FAQPage）を生成する。
+ * Google検索結果でのFAQリッチリザルトおよびコレクション表示を狙う。
+ */
+export function buildCategoryHubJsonLd({
+  categoryLabel,
+  slug,
+  description,
+  faqs,
+  products,
+}: {
+  categoryLabel: string;
+  slug: string;
+  description: string;
+  faqs: { question: string; answer: string }[];
+  products: Product[];
+}) {
+  const pageUrl = `${SITE_URL}/categories/${slug}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": pageUrl,
+        url: pageUrl,
+        name: `【2026年最新】${categoryLabel}おすすめの選び方と厳選モデル`,
+        description,
+        isPartOf: {
+          "@type": "WebSite",
+          "@id": SITE_URL,
+          name: SITE_NAME,
+        },
+      },
+      {
+        "@type": "ItemList",
+        name: `${categoryLabel}おすすめ商品一覧`,
+        numberOfItems: products.length,
+        itemListElement: products.slice(0, 15).map((p, idx) => ({
+          "@type": "ListItem",
+          position: idx + 1,
+          name: p.title,
+          url: `${SITE_URL}/products/${p.slug}`,
+        })),
+      },
+      ...(faqs.length > 0
+        ? [
+            {
+              "@type": "FAQPage",
+              mainEntity: faqs.map((f) => ({
+                "@type": "Question",
+                name: f.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: f.answer,
+                },
+              })),
+            },
+          ]
+        : []),
+    ],
+  };
+}
+
+/**
  * `<script type="application/ld+json">` へ安全に埋め込むためのJSON文字列化。
  * `</script>` によるタグの早期終了を防ぐため `<` をエスケープする。
  */

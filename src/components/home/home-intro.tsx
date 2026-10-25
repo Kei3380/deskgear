@@ -43,7 +43,30 @@ export function HomeIntro({ productCount }: { productCount: number }) {
         <p className="max-w-2xl text-sm text-white/90 sm:text-base">
           パソコン選びから始まる、理想のワークスペースづくり。ノートPCと心地よい周辺機器（モニター・キーボード・マウスなど）{productCount}商品を厳選。あなたの暮らしと作業スタイルに寄り添うトータルコーディネートをご提案します。
         </p>
-        <p className="flex items-center gap-1.5 text-xs text-white/80">
+
+        {/* ファーストビューからのクイックナビゲーション */}
+        <div className="mt-2 flex flex-wrap items-center gap-2 pt-1 text-xs sm:text-sm font-semibold">
+          <a
+            href="#beginner-set"
+            className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur-md px-3.5 py-1.5 text-white transition-all hover:bg-white hover:text-slate-900 shadow-sm"
+          >
+            🛍️ 初心者セット
+          </a>
+          <a
+            href="#featured-guides-heading"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary/80 backdrop-blur-md px-3.5 py-1.5 text-white transition-all hover:bg-primary shadow-sm"
+          >
+            📖 選び方ガイド特集
+          </a>
+          <a
+            href="#category-heading"
+            className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3.5 py-1.5 text-white/90 transition-all hover:bg-white hover:text-slate-900 shadow-sm"
+          >
+            ⚡ カテゴリ一覧
+          </a>
+        </div>
+
+        <p className="flex items-center gap-1.5 text-xs text-white/80 pt-1">
           <Clock className="size-3.5" aria-hidden />
           最終更新日：{SITE_LAST_UPDATED_LABEL}
         </p>

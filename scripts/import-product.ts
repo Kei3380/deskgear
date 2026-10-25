@@ -78,6 +78,8 @@ const AUTO_KEYWORDS = [
   "SanDisk ポータブル SSD",
   "エルゴトロン モニターアーム",
   "モニターアーム シングル",
+  "Shokz 骨伝導イヤホン",
+  "Shokz OpenRun",
 ];
 
 type RakutenItem = {
@@ -241,7 +243,7 @@ async function generateArticleWithGemini(
 - monitor (モニター・ディスプレイ)
 - keyboard (キーボード)
 - mouse (マウス・トラックボール)
-- headset (ヘッドセット・イヤホン)
+- headset (ヘッドセット・骨伝導イヤホン・マイク付きイヤホン)
 - webcam (Webカメラ)
 - security (セキュリティソフト・ライセンス)
 - accessory (PCアクセサリ・モニターアーム・ケーブル・ハブ・電源タップ等)

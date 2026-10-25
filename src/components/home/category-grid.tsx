@@ -58,17 +58,18 @@ export function CategoryGrid({ counts }: { counts: Record<string, number> }) {
   return (
     <section aria-labelledby="category-heading">
       <SectionHeading id="category-heading" className="mb-4">
-        カテゴリから探す
+        カテゴリ別 選び方＆おすすめ一覧
       </SectionHeading>
       <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 sm:gap-3 md:grid-cols-6">
         {CATEGORIES.map((category, index) => {
           const Icon = CATEGORY_ICONS[category.slug] ?? Keyboard;
           // reveal（translate を使う）は hover の浮き上がりと競合するため、ラッパー側に付与する
           const revealStyle = { "--reveal-stagger": `${(index % 6) * 8}%` } as CSSProperties;
+          const href = category.slug === "desktop" ? "/categories/laptop" : `/categories/${category.slug}`;
           return (
             <div key={category.slug} className="reveal" style={revealStyle}>
               <Link
-                href={`/search?category=${category.slug}`}
+                href={href}
                 className="group flex h-full flex-col items-center gap-2 rounded-xl border border-border bg-card px-2 py-3 text-center shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md sm:p-4"
               >
                 <span className="flex size-11 items-center justify-center rounded-full bg-accent text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">

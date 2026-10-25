@@ -32,6 +32,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `requirements.md`: 要件定義書（プロジェクトの目的・機能要件・データモデル・技術スタック・SEO要件の正）
 - `feature-spec.md`: 実装ログ。作業単位ごとに実装内容・変更ファイル・動作確認結果を追記していく。新しい機能を実装したら、承認後にここへ追記すること。
 - `ui_spec.md`: UIデザイン仕様の記録（色・タイポグラフィ等のデザイントークン）と改修候補TODOリスト。本番サイトを解析して作成された参考資料であり、`requirements.md`/`feature-spec.md`とは別に随時更新される。
+- `notes.md`: 商品追加・運用状況の簡易メモ（最終更新 2026-09-03 で現状より古い。最新の実装状況は `feature-spec.md` を正とする）。
+- `README.md`: `create-next-app` の初期テンプレートのまま（プロジェクト固有の情報はない）。
 
 ## Commands
 
@@ -40,6 +42,8 @@ pnpm dev      # 開発サーバー起動 (http://localhost:3000)
 pnpm build    # 本番ビルド（完全SSG。全商品ページを generateStaticParams で事前生成）
 pnpm start    # ビルド済みアプリの起動
 pnpm lint     # ESLint実行
+pnpm import-product --keyword "<検索語>|auto" --category <slug>|auto --limit <件数>
+              # 楽天APIで商品検索 → Gemini で記事生成 → content/products/<slug>.md を作成（下記「商品の自動取り込み」）
 ```
 
 自動テストは未導入。機能実装後の動作確認は `pnpm build` / `pnpm lint` が通ることの確認と、`pnpm dev` を起動してブラウザで目視確認する運用（`feature-spec.md` 参照）。
@@ -54,27 +58,35 @@ pnpm lint     # ESLint実行
 - `getProductBySlug(slug)`: 個別商品の取得 + Markdown本文のHTML変換。`published` でない場合は `null` を返し、呼び出し側 `notFound()` で404にする。
 - `getRankedProducts(limit?)`: `rating` 降順ソート。
 - `filterAndSortProducts(products, filters)`: `ProductFilters`（`category`/`manufacturer`/`sort`）による絞り込み・並び替えの純粋関数（検索結果ページで使用。価格帯・評価による絞り込みは未実装）。
+- `getManufacturers()` / `getManufacturersByCategory()`: 検索パネルのメーカー選択肢（50音順）。カテゴリ選択時はカテゴリ別マップで絞り込む。
+- `SortOption` 型は `products.ts` に定義（`price_asc`/`price_desc`/`rating_desc`/`release_desc`）。
 
-**カテゴリ**: 商品Markdownの `category` フィールド（slug文字列）に対する表示名・アイコンのマッピングは `src/lib/categories.ts` の `CATEGORIES` で一元管理する（商品側には表示名を持たせない）。
+**Frontmatter**（snake_case。例は `content/products/*.md` を参照）: `id`（`GADGET-0001` 形式の連番）/ `status` / `title` / `manufacturer` / `release_date`（`"YYYY-MM"`、発売日未定は `null`）/ `category` / `price` / `rating`（評価未定は `null`）/ `tags` / `pros` / `cons` / `affiliate_links.{amazon,rakuten}`（空文字ならそのCTAボタンを非表示。現状Amazonはほぼ空で楽天が主軸）/ `image`（楽天サムネイルURL）。`null` の扱いはソート・表示側で考慮済み（評価未定は最下位、発売日未定は「新しい順」で最上位）。本文は概要＋「こんな人におすすめ」「注意点」の見出し構成。
+
+**カテゴリ**: 商品Markdownの `category` フィールド（slug文字列）に対する表示名・並び順は `src/lib/categories.ts` の `CATEGORIES` で一元管理する（商品側には表示名を持たせない）。現在のslug: `desktop`/`laptop`/`monitor`/`keyboard`/`mouse`/`headset`/`webcam`/`security`/`accessory`。カテゴリを追加・変更する場合は `scripts/import-product.ts` の `VALID_CATEGORIES` とフォールバック判定も合わせて更新すること。
 
 **ルーティング**:
 - `/` — トップページ（h1リード・初心者おすすめセット・カテゴリ一覧・絞り込み検索パネル・ランキングベスト10）
 - `/search?category=&manufacturer=&sort=` — 検索結果ページ。不正な `sort` 値は `price_desc`（`src/lib/sort-options.ts` の `DEFAULT_SORT`）にフォールバック。`SearchPanel` には検索条件ベースの `key` を付与し、URL変更時に選択状態を初期化する。クエリは `resolveSearchConditions()` で検証し、実在しないカテゴリ・メーカー（そのカテゴリにないメーカーを含む）は「指定なし」として扱う。`generateMetadata()` と h1 は `buildSearchTitle()` で共通の文言（例「ロジクールのマウス一覧」）を生成する。canonical は `buildCanonicalPath()` で `sort` を除いた検証済み条件のみに正規化する（`sitemap.ts` のURL形式と揃えること）。
 - `/products/[slug]` — 商品詳細ページ。`generateStaticParams()` で全published商品を事前生成し、完全SSGを維持。`generateMetadata()` で商品名ベースのSEOメタデータを動的生成。
+- `/privacy` — プライバシーポリシー（アフィリエイト広告・Cookie・個人情報・免責事項）。
+- `sitemap.ts` / `robots.ts` — トップ・検索・privacy・カテゴリ別検索（`/search?category=xxx`）・全published商品をサイトマップに出力。
 
-**SEO/AIO**: 商品詳細ページで `src/lib/json-ld.ts` の `buildProductJsonLd()` が Product スキーマ（`offers` + 編集部レビューの `review`）のJSON-LDを生成し、`<script type="application/ld+json">` で出力（`requirements.md` 6章）。絶対URL解決は `src/lib/site.ts` の `SITE_URL`（Vercel本番環境では `VERCEL_PROJECT_PRODUCTION_URL` を自動使用）。
+**SEO/AIO**: 商品詳細ページで `src/lib/json-ld.ts` の `buildProductJsonLd()` が Product スキーマ（`offers` + 編集部レビューの `review`）のJSON-LDを生成し、`<script type="application/ld+json">` で出力（`requirements.md` 6章）。トップページの初心者セットも独自にJSON-LDを出力する。サイト全体のタイトル・説明文・OGPは `layout.tsx` の `metadata` に定義。`src/lib/site.ts` に `SITE_URL`（優先順: `NEXT_PUBLIC_SITE_URL` → Vercel本番の `VERCEL_PROJECT_PRODUCTION_URL` → localhost）/ `SITE_NAME`（`DESKGEAR`）/ `SITE_LAST_UPDATED_LABEL`（ビルド時刻を最終更新日として表示）を集約。アクセス解析は `@vercel/analytics`（`layout.tsx`）。
 
 **UIコンポーネント構成**:
 - `src/components/ui/` — shadcn/ui生成コンポーネント。`button.tsx` に独自 `variant="cta"`（Amazonオレンジ）/ `variant="rakuten"`（楽天レッド）を追加済み（アフィリエイトCTA用）。
 - `src/components/common/` — ページ横断の表示部品。`SectionHeading`（見出し、h1/h2・アイコン任意）/ `Price` / `Rating`（★は `--rating` で全ページ統一）/ `Breadcrumb`。価格・評価・見出しは直書きせずこれらを使う。
 - `src/components/product/product-card.tsx` — 商品カードの共通コンポーネント。トップページのランキングと検索結果グリッドの両方で使用（`rank` prop指定時のみランキングバッジ表示。1〜3位は金・銀・銅）。
 - `src/components/product/` — 商品詳細用に `product-hero.tsx`（ファーストビュー）/ `sticky-cta-bar.tsx`（モバイル追従CTA。`article` 末尾の `position: sticky` でJS不要）/ `spec-table.tsx` / `pros-cons-table.tsx` / `affiliate-cta.tsx`。
-- `src/components/home/` — トップページ用。初心者セットは `beginner-set.tsx`（本体・JSON-LD・合計金額）/ `beginner-set-item-card.tsx` / `beginner-set-items.ts`（構成定義、`optional` で任意品を区別）に分割。背景固定の窓は `backdrop-section.tsx`、背景の中身は `home-backdrops.tsx`（デスク写真 / ドット模様）。
+- `src/components/home/` — トップページ用。`home-intro.tsx`（h1リード）/ `category-grid.tsx` / `search-panel.tsx`（クライアントコンポーネント。検索結果ページでも再利用）/ `ranking-list.tsx`。初心者セットは `beginner-set.tsx`（本体・JSON-LD・合計金額）/ `beginner-set-item-card.tsx` / `beginner-set-items.ts`（構成定義、`optional` で任意品を区別）に分割。**セットは商品slugを直接参照しており**、該当商品が削除・非公開になるとその品目は表示から消える（全品目が見つからなければセット自体が非表示）。画像は `public/images/beginner-set/`。背景固定の窓は `backdrop-section.tsx`、背景の中身は `home-backdrops.tsx`（デスク写真 / ドット模様）。
+- `src/components/search/` — 検索結果ページ用。`active-filters.tsx`（適用中の条件チップ、個別解除リンク）/ `product-grid.tsx`（グリッド＋0件時の空状態）。
+- `src/components/layout/` — `site-header.tsx` / `site-footer.tsx`。
 - `src/app/layout.tsx` — `SiteHeader` / `SiteFooter` と共通コンテナ（`max-w-6xl`）をここで一元管理。各ページはコンテンツ本体のみを返す。
 
 **ユーティリティ**:
 - `src/lib/format.ts` — `formatPrice()`（価格表示）/ `shortenTitle()`（括弧書き除去）。価格フォーマッタを各ファイルで個別に定義しないこと。
-- `src/lib/images.ts` — `toHighResImage()`。楽天サムネイルURLの `_ex=` を表示時に `500x500` へ置換する（Markdown側は変更しない）。商品画像を表示する箇所では必ず通す。
+- `src/lib/images.ts` — `toHighResImage()`。楽天サムネイルURLの `_ex=` を表示時に `500x500` へ置換する（Markdown側は変更しない）。商品画像を表示する箇所では必ず通す。`next/image` の外部画像許可ドメインは `next.config.ts` の `thumbnail.image.rakuten.co.jp` のみ（他ドメインの画像URLを入れると表示エラーになる）。
 - `src/lib/sort-options.ts` — 並び替えのラベル・表示順・デフォルト値。`products.ts` は fs 依存でクライアントから読めないため、クライアントコンポーネントはこちらを参照する。
 
 **テーマ**: ライト/ダーク切り替えなしで常時ライトテーマ固定（`layout.tsx` の `<html>` に `dark` クラスは付与しない）。未使用の `.dark` トークンは削除済みだが、shadcn/ui部品が `dark:` を使うため `@custom-variant dark` の行は削除しないこと。CTAカラー（`--cta`/`--rakuten` 系）・`--rating`・`--success` は `globals.css` のCSS変数として定義（`requirements.md` 5章、トークン一覧は `ui_spec.md` 9章）。フォントは `layout.tsx` で `next/font/google` の Noto Sans JP を読み込み、`--font-noto-sans-jp` 経由で適用。
@@ -91,6 +103,15 @@ pnpm lint     # ESLint実行
 - 背景が固定される距離は「区画の高さ − `backdropHeight`」。背景を高くしすぎると固定がすぐ終わる（背景①は `65svh`）。
 - 全幅（`100vw`）にすると Windows のスクロールバー幅ぶん横スクロールが出るため、コンテナ幅の角丸の窓にしている。角丸の切り抜きは `overflow-clip`（`overflow-hidden` だと sticky が効かない）。
 - 背景の上に載せる見出し・カードは不透明の地色のパネルに入れる（`page.tsx` の `PANEL_CLASS`）。背景にぼかし（`filter`/`backdrop-filter`）は使わない（スクロール負荷）。
+
+## 商品の自動取り込み
+
+`scripts/import-product.ts`（`pnpm import-product`、`tsx` で実行）が商品Markdownを生成する。
+- 流れ: 楽天市場API で検索 → `scripts/product-dedupe.ts` で登録済み商品を除外 → Gemini API でFrontmatter＋本文を生成（複数モデルを順に試行。APIキー未設定・全モデル失敗時は商品名からの簡易フォールバック記事）→ `content/products/<slug>.md` を `status: "published"` で作成。`id` は既存ファイルの最大 `GADGET-xxxx` + 1。
+- オプション: `--keyword`（`auto` で `AUTO_KEYWORDS` プールからランダム選択）/ `--category`（`auto` でAI判定）/ `--limit`。
+- 環境変数: `.env.example` 参照（`RAKUTEN_APPLICATION_ID` / `RAKUTEN_ACCESS_KEY` / `RAKUTEN_AFFILIATE_ID` / `RAKUTEN_API_REFERER` / `GEMINI_API_KEY`）。ローカルでは `.env.local` または `.env` を独自パーサーで読み込む。
+- 定期実行: `.github/workflows/auto-import.yml` が毎日 4:00 JST（`workflow_dispatch` で手動起動も可）に `--keyword auto --limit 1` で実行し、`content/products/*.md` のみ `main` へ直接コミットする（`[skip ci]` 付き）。キーは GitHub Secrets。
+- 自動生成記事は内容（価格・スペック・発売日・画像URL）が不正確なことがあり、過去に手動修正コミットが発生している。
 
 ## Windows固有の注意
 
