@@ -36,12 +36,10 @@ export function HomeIntro({ productCount }: { productCount: number }) {
 
       <div className="relative flex flex-col gap-2 text-white [text-shadow:0_1px_12px_rgb(0_0_0/0.45)]">
         <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-5xl sm:leading-tight">
-          ”とりあえず”パソコンはなにを買えばいいですか？
-          <br className="sm:hidden" />
-          というパソコン＆便利な周辺機器選び。
+          ” 難しいことはわからないから、とりあえず損しないパソコン”を提案します。
         </h1>
         <p className="max-w-2xl text-sm text-white/90 sm:text-base">
-          難しいことはわからないから、とりあえず損しないパソコンを選定しました。
+        　このサイトはアフィリエイト収入のみで運営してるので、個人情報は一切収集しません。
         </p>
 
         {/* ファーストビューからのクイックナビゲーション */}
