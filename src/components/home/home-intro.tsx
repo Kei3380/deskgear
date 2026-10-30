@@ -41,7 +41,7 @@ export function HomeIntro({ productCount }: { productCount: number }) {
           パソコン＆ガジェット選び。
         </h1>
         <p className="max-w-2xl text-sm text-white/90 sm:text-base">
-          パソコン選びから始まる、理想のワークスペースづくり。ノートPCと心地よい周辺機器（モニター・キーボード・マウスなど）{productCount}商品を厳選。あなたの暮らしと作業スタイルに寄り添うトータルコーディネートをご提案します。
+          「パソコンは何を買えばいいですか？」
         </p>
 
         {/* ファーストビューからのクイックナビゲーション */}
