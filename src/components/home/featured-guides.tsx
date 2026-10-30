@@ -18,10 +18,10 @@ export function FeaturedGuides() {
     <section aria-labelledby="featured-guides-heading" className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
         <SectionHeading id="featured-guides-heading" icon={Compass}>
-          注目の選び方・比較完全ガイド
+          注目の選び方・比較ガイド
         </SectionHeading>
         <p className="text-xs text-muted-foreground sm:text-sm">
-          スペックや予算で迷わないために。編集部が用途・環境別の重要基準をわかりやすく解説。
+          スペックや予算の参考情報。用途・環境別のポイントをわかりやすく解説。
         </p>
       </div>
 
