@@ -25,7 +25,7 @@ export const SET_ITEMS: BeginnerSetItem[] = [
     role: "マウス",
     roleEn: "Mouse",
     optional: false,
-    note: "※ 基本的にノートPCにマウスは付属しません",
+    note: "※ 基本的にノートPCにマウスは付属していないので、別途購入しましょう！",
     imageSrc: "/images/beginner-set/mouse.jpg",
     imageAlt: "ワイヤレスマウスのイメージ",
   },
