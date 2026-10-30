@@ -36,12 +36,12 @@ export function HomeIntro({ productCount }: { productCount: number }) {
 
       <div className="relative flex flex-col gap-2 text-white [text-shadow:0_1px_12px_rgb(0_0_0/0.45)]">
         <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-5xl sm:leading-tight">
-          快適なデスクワークを叶える、
+          ”とりあえず”パソコンはなにを買えばいいですか？
           <br className="sm:hidden" />
-          パソコン＆ガジェット選び。
+          というパソコン＆便利な周辺機器選び。
         </h1>
         <p className="max-w-2xl text-sm text-white/90 sm:text-base">
-          「パソコンは何を買えばいいですか？」
+          難しいことはわからないから、とりあえず損しないパソコンを選定しました。
         </p>
 
         {/* ファーストビューからのクイックナビゲーション */}
