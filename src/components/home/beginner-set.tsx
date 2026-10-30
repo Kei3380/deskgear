@@ -25,9 +25,9 @@ function BeginnerSetJsonLd({ products }: { products: Product[] }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "パソコン初心者おすすめセット",
+    name: "おすすめセット",
     description:
-      "初めてのパソコン環境を最安値水準で揃えられるおすすめ3点セット。ノートパソコン・マウス・モニターのセット。",
+      "パソコン環境を最安値水準で揃えるおすすめ3点セット。ノートパソコン・マウス・モニターのセット。",
     numberOfItems: itemListElement.length,
     itemListElement,
   };
