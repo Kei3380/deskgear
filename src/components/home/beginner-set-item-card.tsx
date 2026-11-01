@@ -45,18 +45,22 @@ export function BeginnerSetItemCard({
       </Link>
 
       {/* 商品情報 */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
+        <p className="text-xs font-medium text-muted-foreground">{product.manufacturer}</p>
         <h3 className="text-sm font-semibold leading-snug">
           <Link href={`/products/${product.slug}`} className="transition-colors hover:text-primary">
             {shortenTitle(product.title)}
           </Link>
         </h3>
-        <p className="text-xs text-muted-foreground">{product.manufacturer}</p>
-        {meta.note && <p className="text-xs text-muted-foreground/80 italic">{meta.note}</p>}
+        {meta.note && (
+          <p className="rounded-lg bg-muted/70 px-2.5 py-2 text-xs leading-relaxed text-foreground/85">
+            💡 {meta.note}
+          </p>
+        )}
       </div>
 
       {/* 価格・CTA（カード下端に揃える） */}
-      <div className="mt-auto flex flex-col gap-2">
+      <div className="mt-auto flex flex-col gap-2 pt-1">
         <Price price={product.price} className="text-xl" />
         {product.affiliateLinks.amazon && (
           <a
@@ -65,7 +69,7 @@ export function BeginnerSetItemCard({
             rel="noopener noreferrer sponsored"
             className={cn(buttonVariants({ variant: "cta", size: "sm" }), "h-auto w-full py-2.5")}
           >
-            Amazonで見る
+            Amazonで在庫・価格を見る
           </a>
         )}
         {product.affiliateLinks.rakuten && (
@@ -75,9 +79,15 @@ export function BeginnerSetItemCard({
             rel="noopener noreferrer sponsored"
             className={cn(buttonVariants({ variant: "rakuten", size: "sm" }), "h-auto w-full py-2.5")}
           >
-            楽天で見る
+            楽天で在庫・ポイント還元を見る
           </a>
         )}
+        <Link
+          href={`/products/${product.slug}`}
+          className="text-center text-xs font-medium text-muted-foreground underline-offset-4 hover:text-primary hover:underline"
+        >
+          詳しいスペック・レビューを見る →
+        </Link>
       </div>
     </div>
   );
